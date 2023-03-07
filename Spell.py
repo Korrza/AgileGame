@@ -1,10 +1,10 @@
 class Spell:
-    def __init__(self, name: str, magic: bool, power: int, precision: float, description: str, _type: dict, cooldown: int = None, status: dict = None):
+    def __init__(self, name: str, magic: bool, power: int, accuracy: float, description: str, types: dict, cooldown: int = None, status: dict = None):
         self.name = name
         self.magic = magic
         self.power = power
-        self.precision = precision
+        self.accuracy = accuracy
         self.cooldown = cooldown
         self.description = description
-        self._type = _type
+        self.types = types
         self.status = status
