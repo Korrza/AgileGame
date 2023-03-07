@@ -1,4 +1,6 @@
 import msvcrt as key
+from time import sleep
+from termcolor import colored
 # hello world 
 print("Hello World")
 
@@ -29,25 +31,28 @@ def launch_game():
     winner = ""
 
     while st_life > 0 and nd_life > 0:
-        print("Turn " + str(Turn))
+        print(colored("Turn " + str(Turn) + "", 'red', None, attrs=['bold']))
 
         # Player 1 turn
         
         print(key.getch())
-        print("Player 1 attack")
+        print(colored("Player 1", "light_blue") + " attack !")
+        sleep(0.1)
 
         nd_life = nd_life - st_attack
 
-        print("Player 1 dealt " + str(st_attack) + " damage to Player 2")
-        print("Player 2 has " + str(nd_life) + " life points left")
+        print(colored("Player 1", "light_blue") + " dealt " + colored(str(st_attack), "red") + " damage to Player 2")
+        print(colored("Player 2", "light_magenta") + " has " + colored(str(nd_life), "light_green") + " life points left \n")
 
-    # Player 2 turn
-        print("Player 2 attack")
+        sleep(0.2)
+        # Player 2 turn
+        print(colored("Player 2", "light_magenta") + " attack !")
+        sleep(0.1)
 
         st_life = st_life - nd_attack
 
-        print("Player 2 dealt " + str(nd_attack) + " damage to Player 1")
-        print("Player 1 has " + str(st_life) + " life points left")
+        print(colored("Player 2", "light_magenta") + " dealt " + colored(str(nd_attack), "red") + " damage to Player 1")
+        print(colored("Player 1", "light_blue") + " has " + colored(str(st_life), "light_green") + " life points left \n")
 
         Turn = Turn + 1
 
@@ -68,7 +73,7 @@ def launch_game():
 
 
     # Display experience points gained
-    print(winner + " gained " + str(10) + " experience points")
+    print(winner + " gained " + str(10) + " experience points \n")
 
     # Display level up if applicable
 
@@ -82,15 +87,11 @@ def launch_game():
     print(key.getch())
 
     # if yes, restart game
-    print("Restarting game")
     restart_game()
 
-    # create a function to restart game
 
 def restart_game():
     print("Restarting game")
-    Turn = 1
-    winner = ""
     launch_game()
 
 launch_game()
