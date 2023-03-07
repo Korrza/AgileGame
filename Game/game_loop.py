@@ -31,9 +31,12 @@ class Game:
         self.manage_xp(winner)
 
         print("Do you want to restart the game ? (y/n)")
-        # print(key.getch())
-
-        # self.restart_game()
+        
+        key_pressed = key.getch()
+        if key_pressed == b'y':
+            self.restart_game()
+        else:
+            print("Thanks for playing !")
 
     def restart_game(self):
         print("Restarting game")
@@ -56,7 +59,7 @@ class Game:
 
     def launch_turn(self):
         print(colored("Turn " + str(self.turn) + "", 'red', None, attrs=['bold']))
-        sleep(0.5)
+        sleep(0.1)
         
         # Player 1 turn
         print(colored("Player 1", "light_blue") + " attack !")
@@ -72,7 +75,7 @@ class Game:
 
         print(colored("Player 2", "light_magenta") + " deal " + colored(str(10), "red") + " damage to Player 1")
         print(colored("Player 1", "light_blue") + " has " + colored(str(self.player1.statistics.current_hp), "light_green") + " life points left \n")
-        sleep(0.5)
+        sleep(0.1)
 
         self.turn += 1
 
