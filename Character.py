@@ -1,25 +1,14 @@
 import Statistics
-import Actions
+import Spell
 
 
 class Character:
-    def __init__(self, _id: int, name: str, statistics: Statistics, actions: Actions):
+    def __init__(self, _id: int, name: str, statistics: Statistics, spells: list[Spell], status: int):
         self._id = _id
         self.name = name
         self.statistics = statistics
-        self.actions = actions
-
-    def get_basic_attack_damage(self):
-        return self.statistics.attack * self.actions.basic_attack
-
-    def get_physical_attack_damage(self):
-        return self.statistics.attack * self.actions.physical_attack
-
-    def get_magical_attack_damage(self):
-        return self.statistics.attack * self.actions.magical_action
-
-    def get_healing(self):
-        return self.statistics.power * self.actions.magical_action
+        self.spells = spells
+        self.status = status
 
 
 class Player(Character):
