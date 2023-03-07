@@ -1,6 +1,14 @@
-from Game import game_loop
-# hello world 
+# hello world
+from Game.game_loop import Game
+
 print("Hello World")
 
+# launch game
+game = Game()
 
-# if no, exit game
+game.launch_game()
+
+
+
+
+# if no, exit game1
