@@ -4,9 +4,9 @@
     "name": "Boule de Feu",
     "magic": true,
     "power": 50,
-    "precision": 80,
+    "accuracy": 80,
     "description": "Lance une boule de feu et peut causer des dommages sur tous les joueurs.",
-    "_type": {
+    "types": {
       "attack": true,
       "heal": false,
       "buff": false
@@ -22,10 +22,10 @@
     "name": "Trait de Glace",
     "magic": true,
     "power": 40,
-    "precision": 100,
+    "accuracy": 100,
     "description": "Lance un trait de glace sur l'ennemi et peut être utilisé une fois par tour.",
     "cooldown": 1,
-    "_type": {
+    "types": {
       "attack": true,
       "heal": false,
       "buff": false
@@ -41,9 +41,9 @@
     "name": "Coup d'Epée",
     "magic": false,
     "power": 30,
-    "precision": 100,
+    "accuracy": 100,
     "description": "Lance un coup d'épée à l'ennemi.",
-    "_type": {
+    "types": {
       "attack": true,
       "heal": false,
       "buff": false
@@ -54,10 +54,10 @@
     "name": "Cure",
     "magic": true,
     "power": 80,
-    "precision": 100,
+    "accuracy": 100,
     "description": "Soigne les blessures personnelles et peut être utilisé tous les 2 tours.",
     "cooldown": 1,
-    "_type": {
+    "types": {
       "attack": false,
       "heal": true,
       "buff": false
@@ -73,9 +73,9 @@
     "name": "Eclair",
     "magic": true,
     "power": 60,
-    "precision": 90,
+    "accuracy": 90,
     "description": "Lance la foudre sur l'ennemi.",
-    "_type": {
+    "types": {
       "attack": true,
       "heal": false,
       "buff": false
@@ -86,9 +86,9 @@
     "name": "Coup de Poing",
     "magic": false,
     "power": 10,
-    "precision": 100,
+    "accuracy": 100,
     "description": "Donne un coup de poing à l'ennemi.",
-    "_type": {
+    "types": {
       "attack": true,
       "heal": false,
       "buff": false
