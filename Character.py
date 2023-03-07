@@ -1,23 +1,15 @@
 import Statistics
+import Spell
 
 
 class Character:
-    def __init__(self, _id: int, name: str, statistics: Statistics):
+    def __init__(self, _id: int, name: str, statistics: Statistics, spells: list[Spell], status: int):
         self._id = _id
         self.name = name
         self.statistics = statistics
+        self.spells = spells
+        self.status = status
 
-    def basic_attack(self):
-        return self.statistics.attacks.basic_attack
-
-    def basic_healing(self):
-        return self.statistics.healing.basic_healing
-
-    def receive_damage(self, damage_input):
-        self.statistics.health_points -= damage_input
-        if self.statistics.health_points < 0:
-            self.statistics.health_points = 0
-        return self.statistics.health_points
 
 class Player(Character):
     def __init__(self, _id: int, statistics: Statistics, name: str = None, second_player: bool = False):

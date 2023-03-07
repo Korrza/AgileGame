@@ -1,0 +1,51 @@
+[
+  {
+    "id": 1,
+    "name": "Boule de Feu",
+    "magic": true,
+    "power": 50,
+    "precision": 80,
+    "description": "Lance une boule de feu et peut causer des dommages sur tous les joueurs.",
+    "status": {
+      "name": "burn",
+      "probability": 0.1,
+      "target": "all"
+    }
+  },
+    {
+    "id": 2,
+    "name": "Trait de Glace",
+    "magic": true,
+    "power": 40,
+    "precision": 100,
+    "description": "Lance un trait de glace sur l'ennemi et peut être utilisé une fois par tour.",
+    "cooldown": 1,
+    "status": {
+      "name": "stun",
+      "probability": 0.5,
+      "target": "enemy"
+    }
+  },
+      {
+    "id": 3,
+    "name": "Coup d'Epée",
+    "magic": false,
+    "power": 30,
+    "precision": 100,
+    "description": "Lance un coup d'épée à l'ennemi."
+  },
+      {
+    "id": 4,
+    "name": "Cure",
+    "magic": true,
+    "power": 80,
+    "precision": 100,
+    "description": "Soigne les blessures personnelles et peut être utilisé tous les 2 tours.",
+    "cooldown": 1,
+    "status": {
+      "name": "heal",
+      "probability": 1,
+      "target": "self"
+    }
+  }
+]
