@@ -1,20 +1,26 @@
 import Statistics
+import Actions
 
 
 class Character:
-    def __init__(self, _id: int, name: str, statistics: Statistics):
+    def __init__(self, _id: int, name: str, statistics: Statistics, actions: Actions):
         self._id = _id
         self.name = name
         self.statistics = statistics
+        self.actions = actions
 
-    def basic_attack(self):
-        return self.statistics.attacks.basic_attack
+    def get_basic_attack_damage(self):
+        return self.statistics.attack * self.actions.basic_attack
 
-    def receive_damage(self, damage_input):
-        self.statistics.health_points -= damage_input
-        if self.statistics.health_points < 0:
-            self.statistics.health_points = 0
-        return self.statistics.health_points
+    def get_physical_attack_damage(self):
+        return self.statistics.attack * self.actions.physical_attack
+
+    def get_magical_attack_damage(self):
+        return self.statistics.attack * self.actions.magical_action
+
+    def get_healing(self):
+        return self.statistics.power * self.actions.magical_action
+
 
 class Player(Character):
     def __init__(self, _id: int, statistics: Statistics, name: str = None, second_player: bool = False):
