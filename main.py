@@ -1,2 +1,98 @@
+import msvcrt as key
 # hello world 
 print("Hello World")
+
+# Number of players chooser
+
+players_number = 0
+
+while players_number != '1' and players_number != '2':
+    players_number = input("How many players ? '(1 or 2)' ")
+
+    if players_number != '1' and players_number != '2':
+        print("Please enter 1 or 2")
+
+
+
+def launch_game():
+    # Create 2 players
+    st_life = 100
+    st_attack = 10
+    st_experience = 0
+
+    nd_life = 100
+    nd_attack = 10
+    nd_experience = 0
+
+    # Game loop
+    Turn = 1
+    winner = ""
+
+    while st_life > 0 and nd_life > 0:
+        print("Turn " + str(Turn))
+
+        # Player 1 turn
+        
+        print(key.getch())
+        print("Player 1 attack")
+
+        nd_life = nd_life - st_attack
+
+        print("Player 1 dealt " + str(st_attack) + " damage to Player 2")
+        print("Player 2 has " + str(nd_life) + " life points left")
+
+    # Player 2 turn
+        print("Player 2 attack")
+
+        st_life = st_life - nd_attack
+
+        print("Player 2 dealt " + str(nd_attack) + " damage to Player 1")
+        print("Player 1 has " + str(st_life) + " life points left")
+
+        Turn = Turn + 1
+
+    # End Game loop
+
+
+    # Display winner
+    if st_life <= 0:
+        winner = "Player 2"
+        nd_experience = nd_experience + 10
+    elif nd_life <= 0:
+        winner = "Player 1"
+        st_experience = st_experience + 10
+    else:
+        winner = "Nobody"
+
+    print("The winner is " + winner)
+
+
+    # Display experience points gained
+    print(winner + " gained " + str(10) + " experience points")
+
+    # Display level up if applicable
+
+
+    # Display new stats
+
+
+    # want to restart game?
+
+    print("Do you want to restart the game ? (y/n)")
+    print(key.getch())
+
+    # if yes, restart game
+    print("Restarting game")
+    restart_game()
+
+    # create a function to restart game
+
+def restart_game():
+    print("Restarting game")
+    Turn = 1
+    winner = ""
+    launch_game()
+
+launch_game()
+
+# if no, exit game
