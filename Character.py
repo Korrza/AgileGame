@@ -12,11 +12,11 @@ class Character:
 
 
 class Player(Character):
-    def __init__(self, _id: int, statistics: Statistics, name: str = None, second_player: bool = False):
+    def __init__(self, _id: int, statistics: Statistics, spells: list[Spell], status: int, name: str = None, second_player: bool = False):
         name = name if name is not None else 'Player 2' if second_player else 'Player 1'
-        super().__init__(_id, name, statistics)
+        super().__init__(_id, name, statistics, spells, status)
 
 
 class Robot(Character):
-    def __init__(self, _id: int, statistics: Statistics, name: str = 'Robot'):
-        super().__init__(_id, name, statistics)
+    def __init__(self, _id: int, statistics: Statistics, spells: list[Spell], status: int, name: str = 'Robot'):
+        super().__init__(_id, name, statistics, spells, status)
