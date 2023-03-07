@@ -18,11 +18,7 @@ class Character:
 
 class Player(Character):
     def __init__(self, _id: int, statistics: Statistics, name: str = None, second_player: bool = False):
-        if name is None:
-            if second_player:
-                name = 'Player 2'
-            else:
-                name = 'Player 1'
+        name = name if name is not None else 'Player 2' if second_player else 'Player 1'
         super().__init__(_id, name, statistics)
 
 
