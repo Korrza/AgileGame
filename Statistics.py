@@ -1,6 +1,7 @@
 import Attacks
 class Statistics:
-    def __init__(self, health_points: int, attacks: Attacks, experience: int):
-        self.health_points = health_points
+    def __init__(self, max_hp: int, current_hp: int, attacks: Attacks, experience: int):
+        self.max_hp = max_hp
+        self.current_hp = current_hp
         self.attacks = attacks
         self.experience = experience
