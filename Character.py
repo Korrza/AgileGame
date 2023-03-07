@@ -10,6 +10,9 @@ class Character:
     def basic_attack(self):
         return self.statistics.attacks.basic_attack
 
+    def basic_healing(self):
+        return self.statistics.healing.basic_healing
+
     def receive_damage(self, damage_input):
         self.statistics.health_points -= damage_input
         if self.statistics.health_points < 0:
