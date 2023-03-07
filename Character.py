@@ -17,7 +17,15 @@ class Character:
         return self.statistics.health_points
 
 class Player(Character):
-    pass
+    def __init__(self, _id: int, statistics: Statistics, name: str = None, second_player: bool = False):
+        if name is None:
+            if second_player:
+                name = 'Player 2'
+            else:
+                name = 'Player 1'
+        super().__init__(_id, name, statistics)
+
 
 class Robot(Character):
-    pass
+    def __init__(self, _id: int, statistics: Statistics, name: str = 'Robot'):
+        super().__init__(_id, name, statistics)
