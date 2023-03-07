@@ -6,6 +6,11 @@
     "power": 50,
     "precision": 80,
     "description": "Lance une boule de feu et peut causer des dommages sur tous les joueurs.",
+    "_type": {
+      "attack": true,
+      "heal": false,
+      "buff": false
+    },
     "status": {
       "name": "burn",
       "probability": 0.1,
@@ -20,6 +25,11 @@
     "precision": 100,
     "description": "Lance un trait de glace sur l'ennemi et peut être utilisé une fois par tour.",
     "cooldown": 1,
+    "_type": {
+      "attack": true,
+      "heal": false,
+      "buff": false
+    },
     "status": {
       "name": "stun",
       "probability": 0.5,
@@ -32,8 +42,13 @@
     "magic": false,
     "power": 30,
     "precision": 100,
-    "description": "Lance un coup d'épée à l'ennemi."
-  },
+    "description": "Lance un coup d'épée à l'ennemi.",
+    "_type": {
+      "attack": true,
+      "heal": false,
+      "buff": false
+    }
+      },
       {
     "id": 4,
     "name": "Cure",
@@ -42,6 +57,11 @@
     "precision": 100,
     "description": "Soigne les blessures personnelles et peut être utilisé tous les 2 tours.",
     "cooldown": 1,
+    "_type": {
+      "attack": false,
+      "heal": true,
+      "buff": false
+    },
     "status": {
       "name": "heal",
       "probability": 1,
@@ -54,7 +74,12 @@
     "magic": true,
     "power": 60,
     "precision": 90,
-    "description": "Lance la foudre sur l'ennemi."
+    "description": "Lance la foudre sur l'ennemi.",
+    "_type": {
+      "attack": true,
+      "heal": false,
+      "buff": false
+    }
   },
     {
     "id": 6,
@@ -63,5 +88,10 @@
     "power": 10,
     "precision": 100,
     "description": "Donne un coup de poing à l'ennemi.",
+    "_type": {
+      "attack": true,
+      "heal": false,
+      "buff": false
+    }
   }
 ]
