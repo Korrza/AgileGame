@@ -47,5 +47,21 @@
       "probability": 1,
       "target": "self"
     }
+  },
+    {
+    "id": 5,
+    "name": "Eclair",
+    "magic": true,
+    "power": 60,
+    "precision": 90,
+    "description": "Lance la foudre sur l'ennemi."
+  },
+    {
+    "id": 6,
+    "name": "Coup de Poing",
+    "magic": false,
+    "power": 10,
+    "precision": 100,
+    "description": "Donne un coup de poing à l'ennemi.",
   }
 ]
