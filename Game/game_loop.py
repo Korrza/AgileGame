@@ -1,38 +1,73 @@
 import json
 import math
-import msvcrt as key
 import random
 from time import sleep
-from termcolor import colored
+
+import msvcrt as key
 from Character import Player, Robot
 from Spell import Spell
 from Statistics import Statistics
 
 
 class Game:
-    
+
     def __init__(self):
-        self.players_number = 0
-        self.player1 = None
-        self.player2 = None
+        self.players = []
         self.turn = 0
 
+    def get_players_number(self):
+        while True:
+            players_number = input("How many players? (1 or 2): ")
+            if players_number in {'1', '2'}:
+                break
+            print("Please enter 1 or 2")
+
+        if players_number == '1':
+            self.players.append(create_player())
+            self.players.append(create_robot())
+        elif players_number == '2':
+            self.players.append(create_player())
+            self.players.append(create_player(True))
+
+    def launch_turn(self):
+        print("Turn " + str(self.turn))
+        sleep(0.1)
+        for player in self.players:
+            # Tour du joueur en cours
+            if player.statistics.current_hp > 0:
+                spell = get_spell(player)
+                target = self.players[0] if player == self.players[1] else self.players[1]
+                launch_spell(spell, target, player)
+
+                display_hp(player, target)
+
+        self.turn += 1
+
+    def get_winner(self):
+        if self.players[0].statistics.current_hp <= 0 and self.players[1].statistics.current_hp <= 0:
+            return None
+        elif self.players[1].statistics.current_hp <= 0:
+            return self.players[0]
+        elif self.players[0].statistics.current_hp <= 0:
+            return self.players[1]
+        else:
+            return None
+
     def launch_game(self):
-        self.get_player_number()
-        self.create_players()
+        self.get_players_number()
 
         # Game loop
         self.turn = 1
 
-        while self.player1.statistics.current_hp > 0 and self.player2.statistics.current_hp > 0:
+        while self.players[0].statistics.current_hp > 0 and self.players[1].statistics.current_hp > 0:
             self.launch_turn()
 
         winner = self.get_winner()
-        self.display_winner(winner)
-        self.manage_xp(winner)
+        display_winner(winner)
+        manage_xp(winner)
 
         print("Do you want to restart the game ? (y/n)")
-        
+
         key_pressed = key.getch()
         if key_pressed == b'y':
             self.restart_game()
@@ -43,106 +78,77 @@ class Game:
         print("Restarting game")
         self.launch_game()
 
-    def get_player_number(self):
-        while self.players_number != '1' and self.players_number != '2':
-            self.players_number = input("How many players ? '(1 or 2)' ")
 
-            if self.players_number != '1' and self.players_number != '2':
-                print("Please enter 1 or 2")
+def create_player(second_player: bool = False) -> Player:
+    with open("spells.json", "r") as f:
+        spell_data = json.load(f)
 
-    def create_players(self):
-        if self.players_number == '1':
-            self.player1 = self.create_one_character()
-            self.player2 = self.create_robot_character()
-        elif self.players_number == '2':
-            self.player1 = self.create_one_character()
-            self.player2 = self.create_one_character(True)
+    spells = [Spell(**spell) for spell in spell_data]
 
-    def create_one_character(self, second_player: bool = False):
-        spells = json.load(open('spells.json'))
-        character = Player(1, Statistics(100, 100, 10, 10, 0, 0), [Spell(**spells[0]), Spell(**spells[1]), Spell(**spells[2]), Spell(**spells[4])], 0, second_player = second_player)
-        return character
-
-    def create_robot_character(self):
-        spells = json.load(open('spells.json'))
-        character = Robot(1, Statistics(100, 100, 10, 10, 0, 0) , [Spell(**spells[0]), spells[1], spells[2], spells[4]], 0)
-        return character
-
-    def launch_turn(self):
-        print(colored("Turn " + str(self.turn) + "", 'red', None, attrs=['bold']))
-        sleep(0.1)
-        
-        # Player 1 turn
-        spell = self.get_spell(self.player1)
-        self.launch_spell(spell, self.player2, self.player1)
-        print(colored("Player 1", "light_blue") + " attack !")
-
-        print(colored("Player 2", "light_magenta") + " has " + colored(str(self.player2.statistics.current_hp), "light_green") + " life points left \n")
-
-        # Player 2 turn
-        print(colored("Player 2", "light_magenta") + " attack !")
-        self.player1.statistics.current_hp -= 10
-
-        print(colored("Player 2", "light_magenta") + " deal " + colored(str(10), "red") + " damage to Player 1")
-        print(colored("Player 1", "light_blue") + " has " + colored(str(self.player1.statistics.current_hp), "light_green") + " life points left \n")
-        sleep(0.1)
-
-        self.turn += 1
-
-    def get_spell(self, player: Player | Robot):
-        key_pressed = key.getch()
-
-        match key_pressed:
-            case b'a':
-                return player.spells[0]
-            case b'z':
-                return player.spells[1]
-            case b'e':
-                return player.spells[2]
-            case b'r':
-                return player.spells[3]
+    return Player(1, Statistics(100, 100, 10, 10, 0, 0), spells, 0,
+                  second_player=second_player)
 
 
-    def launch_spell(self, spell : Spell, target: Player | Robot, caster: Player | Robot):
-        if random.randint(1, 100) > spell.accuracy:
-            print("The spell missed !")
+def create_robot() -> Robot:
+    with open("spells.json", "r") as f:
+        spell_data = json.load(f)
 
-        if spell.types.attack:
-            target.statistics.current_hp -= self.compute_damage(spell.power, caster.statistics.attack)
-            print(caster.name + " used " + spell.name + " on " + target.name + " !")
+    spells = [Spell(**spell) for spell in spell_data]
 
-        if spell.types.heal:
-            caster.statistics.current_hp += self.compute_damage(spell.power, caster.statistics.attack)
-            print(caster.name + " used " + spell.name + " on " + caster.name + " !")
+    return Robot(1, Statistics(100, 100, 10, 10, 0, 0), spells, 0)
 
-        if spell.types.buff:
-            # TODO add buff to caster
-            print(caster.name + " used " + spell.name + " on " + caster.name + " !")
 
-    @staticmethod
-    def compute_damage(attack, power):
-        return math.ceil(attack * (power / 100))
+def get_spell(character: Player | Robot) -> Spell:
+    key_pressed = key.getch()
 
-    def get_winner(self):
-        if self.player1.statistics.current_hp <= 0 and self.player2.statistics.current_hp <= 0:
-            return None
-        elif self.player2.statistics.current_hp <= 0:
-            return self.player1
-        elif self.player1.statistics.current_hp <= 0:
-            return self.player2
-        else:
-            return None
+    match key_pressed:
+        case b'a':
+            return character.spells[0]
+        case b'z':
+            return character.spells[1]
+        case b'e':
+            return character.spells[2]
+        case b'r':
+            return character.spells[3]
 
-    @staticmethod
-    def display_winner(winner: Player | Robot):
-        if winner is None:
-            print("It's a draw ! \n")
-        else:
-            print("The winner is " + winner.name + " ! \n")
 
-    @staticmethod
-    def manage_xp(winner: Player | Robot):
-        if winner is not None:
-            print(str(winner.name) + " gained " + str(10) + " experience points \n")
-        else:
-            print("Both players gained " + str(5) + " experience points \n")
+def display_hp(player: Player | Robot, target: Player | Robot):
+    print(f"{target.name}", "light_magenta" + " has " + str(target.statistics.current_hp) + " life points left")
+    print(f"{player.name}", "light_blue" + " has " + str(player.statistics.current_hp) + " life points left\n")
+
+
+def compute_damage(attack: int, power: int) -> int:
+    return math.ceil(attack * (power / 100))
+
+
+def launch_spell(spell: Spell, target: Player | Robot, caster: Player | Robot):
+    if random.randint(1, 100) > spell.accuracy:
+        print("The spell missed !")
+
+    if spell.types.get("attack"):
+        damage = compute_damage(spell.power, caster.statistics.attack)
+        target.statistics.current_hp -= damage
+        print(caster.name + " used " + spell.name + " on " + target.name + " and deal " + str(damage) + " damage!")
+
+    if spell.types.get("heal"):
+        heal = compute_damage(spell.power, caster.statistics.attack)
+        caster.statistics.current_hp += heal
+        print(caster.name + " used " + spell.name + " on " + caster.name + " and healed for " + str(heal) + " points!")
+
+    if spell.types.get("buff"):
+        # TODO add buff to caster
+        print(caster.name + " used " + spell.name + " on " + caster.name + " !")
+
+
+def display_winner(winner: Player | Robot):
+    if winner is None:
+        print("It's a draw ! \n")
+    else:
+        print("The winner is " + winner.name + " ! \n")
+
+
+def manage_xp(winner: Player | Robot):
+    if winner is not None:
+        print(str(winner.name) + " gained " + str(10) + " experience points \n")
+    else:
+        print("Both players gained " + str(5) + " experience points \n")
