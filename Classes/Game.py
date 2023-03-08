@@ -3,7 +3,8 @@ from time import sleep
 import msvcrt as key
 
 from Classes.Character import Robot
-from Utils.character_manager import create_player, create_robot, get_spell, launch_spell, manage_xp
+from Utils.character_manager import create_robot, get_spell, launch_spell, manage_xp, \
+    choose_character_type
 from Utils.displayer import display_winner, display_hp
 from colorama import init, Fore
 
@@ -16,7 +17,7 @@ class Game:
         self.players = []
         self.turn = 0
 
-    def get_players_number(self):
+    def get_players(self):
         while True:
             players_number = input(f"{Fore.LIGHTCYAN_EX}How many players? (1 or 2): ")
             if players_number in {'1', '2'}:
@@ -24,11 +25,12 @@ class Game:
             print(f"{Fore.LIGHTRED_EX}Please enter 1 or 2")
 
         if players_number == '1':
-            self.players.append(create_player())
+            choose_character_type(self.players)
             self.players.append(create_robot())
+
         elif players_number == '2':
-            self.players.append(create_player())
-            self.players.append(create_player(True))
+            choose_character_type(self.players)
+            choose_character_type(self.players, second_player=True)
 
         print(f"\n{Fore.LIGHTBLUE_EX}{self.players[0].name} {Fore.LIGHTCYAN_EX}VS {Fore.LIGHTBLUE_EX}{self.players[1].name}")
 
@@ -61,7 +63,7 @@ class Game:
             return None
 
     def launch_game(self):
-        self.get_players_number()
+        self.get_players()
 
         # Game loop
         self.turn = 1

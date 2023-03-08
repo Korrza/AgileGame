@@ -1,0 +1,70 @@
+[
+  {
+    "id": 1,
+    "name": "Fireball",
+    "magic": true,
+    "power": 50,
+    "accuracy": 80,
+    "description": "Deals fire damage to all characters.",
+    "types": {
+      "attack": true,
+      "heal": false,
+      "buff": false
+    },
+    "status": {
+      "name": "burn",
+      "probability": 0.1,
+      "target": "all"
+    }
+  },
+      {
+    "id": 2,
+    "name": "Healing Potion",
+    "magic": true,
+    "power": 80,
+    "accuracy": 100,
+    "description": "Drinks a healing potion that increases player's health points.",
+    "cooldown": 1,
+    "types": {
+      "attack": false,
+      "heal": true,
+      "buff": false
+    },
+    "status": {
+      "name": "heal",
+      "probability": 1,
+      "target": "self"
+    }
+  },
+    {
+    "id": 3,
+    "name": "Lightning",
+    "magic": true,
+    "power": 60,
+    "accuracy": 90,
+    "description": "Deals lightning damage to the enemy.",
+    "types": {
+      "attack": true,
+      "heal": false,
+      "buff": false
+    }
+  },
+    {
+    "id": 4,
+    "name": "Freeze",
+    "magic": true,
+    "power": 10,
+    "accuracy": 100,
+    "description": " Gèle l'ennemi, le rendant incapable d'attaquer pendant un tour.",
+    "types": {
+      "attack": true,
+      "heal": false,
+      "buff": false
+    },
+    "status": {
+      "name": "freeze",
+      "probability": 0.5,
+      "target": "enemy"
+    }
+  }
+]

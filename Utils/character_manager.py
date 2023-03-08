@@ -3,6 +3,7 @@ import math
 import random
 import msvcrt as key
 from Classes.Character import Player, Robot
+from Classes.PlayerType import PlayerType
 from Classes.Spell import Spell
 from Classes.Statistics import Statistics
 from colorama import init, Fore
@@ -10,24 +11,42 @@ from colorama import init, Fore
 init(autoreset=True)
 
 
-def get_all_spells() -> list[Spell]:
-    with open("spells.json", "r") as f:
+def get_all_player_spells(player_type: PlayerType) -> list[Spell]:
+    with open(f"spells_{player_type.name}.json", "r") as f:
         spell_data = json.load(f)
 
     return [Spell(**spell) for spell in spell_data]
 
 
-def create_player(second_player: bool = False) -> Player:
-    spells = get_all_spells()
+def get_all_robot_spells() -> list[Spell]:
+    spell_data = []
+    with open(f"spells_mage.json", "r") as f:
+        mage_spells_data = json.load(f)
+        for spell in mage_spells_data:
+            spell_data.append(spell)
+    with open(f"spells_warrior.json", "r") as f:
+        warrior_spells_data = json.load(f)
+        for spell in warrior_spells_data:
+            spell_data.append(spell)
+    with open(f"spells_dragon.json", "r") as f:
+        dragon_spells_data = json.load(f)
+        for spell in dragon_spells_data:
+            spell_data.append(spell)
 
-    return Player(1, Statistics(100, 100, 10, 10, 0, 0), spells, 0,
+    return [Spell(**spell) for spell in spell_data]
+
+
+def create_player(player_type: PlayerType, second_player: bool) -> Player:
+    spells = get_all_player_spells(player_type)
+    return Player(_id=1, statistics=Statistics(100, 100, 10, 10, 0, 0), spells=spells, status=0,
+                  player_type=player_type,
                   second_player=second_player)
 
 
 def create_robot() -> Robot:
-    spells = get_all_spells()
+    spells = get_all_robot_spells()
 
-    return Robot(1, Statistics(100, 100, 10, 10, 0, 0), spells, 0)
+    return Robot(_id=1, statistics=Statistics(100, 100, 10, 10, 0, 0), spells=spells, status=0)
 
 
 def get_spell(character: Player) -> Spell:
@@ -76,6 +95,25 @@ def launch_spell(spell: Spell, target: Player | Robot, caster: Player | Robot) -
 
 def manage_xp(winner: Player | Robot):
     if winner is not None:
-        print(f"{Fore.LIGHTWHITE_EX}{winner.name} {Fore.LIGHTCYAN_EX}gained {Fore.LIGHTWHITE_EX}{10} {Fore.LIGHTCYAN_EX}experience points.\n")
+        print(
+            f"{Fore.LIGHTWHITE_EX}{winner.name} {Fore.LIGHTCYAN_EX}gained {Fore.LIGHTWHITE_EX}{10} {Fore.LIGHTCYAN_EX}experience points.\n")
     else:
-        print(f"{Fore.LIGHTWHITE_EX}Both players {Fore.LIGHTCYAN_EX}gained {Fore.LIGHTWHITE_EX}{5} {Fore.LIGHTCYAN_EX}experience points.\n")
+        print(
+            f"{Fore.LIGHTWHITE_EX}Both players {Fore.LIGHTCYAN_EX}gained {Fore.LIGHTWHITE_EX}{5} {Fore.LIGHTCYAN_EX}experience points.\n")
+
+
+def choose_character_type(players: list, second_player: bool = False):
+    while True:
+        player_type_choice = input(f"{Fore.LIGHTCYAN_EX}Choose a character. (m/w/d): ")
+        if player_type_choice in {'m', 'w', 'd'}:
+            player_type = ""
+            match player_type_choice:
+                case 'm':
+                    player_type = PlayerType.MAGE
+                case 'w':
+                    player_type = PlayerType.WARRIOR
+                case 'd':
+                    player_type = PlayerType.DRAGON
+            players.append(create_player(player_type, second_player))
+            break
+        print(f"{Fore.LIGHTRED_EX}Please enter 'm', 'w' or 'd'")

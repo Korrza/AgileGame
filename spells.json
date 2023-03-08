@@ -1,11 +1,11 @@
 [
   {
     "id": 1,
-    "name": "Boule de Feu",
+    "name": "Fireball",
     "magic": true,
     "power": 50,
     "accuracy": 80,
-    "description": "Lance une boule de feu et peut causer des dommages sur tous les joueurs.",
+    "description": "Inflige des dégâts de feu à tous les joueurs.",
     "types": {
       "attack": true,
       "heal": false,

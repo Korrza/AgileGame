@@ -1,0 +1,75 @@
+[
+  {
+    "id": 1,
+    "name": "Thunderclap",
+    "magic": false,
+    "power": 50,
+    "accuracy": 80,
+    "description": "Strikes its wings together, creating a shock wave that inflicts damage to all players.",
+    "types": {
+      "attack": true,
+      "heal": false,
+      "buff": false
+    },
+    "status": {
+      "name": "stun",
+      "probability": 0.1,
+      "target": "all"
+    }
+  },
+   {
+    "id": 2,
+    "name": "Fresh Blood",
+    "magic": false,
+    "power": 80,
+    "accuracy": 100,
+    "description": "Drinks fresh blood to recover life points.",
+    "cooldown": 1,
+    "types": {
+      "attack": false,
+      "heal": true,
+      "buff": false
+    },
+    "status": {
+      "name": "heal",
+      "probability": 1,
+      "target": "self"
+    }
+  },
+  {
+    "id": 3,
+    "name": "Dragon Breath",
+    "magic": false,
+    "power": 60,
+    "accuracy": 90,
+    "description": "Deals fire damage to the enemy.",
+    "types": {
+      "attack": true,
+      "heal": false,
+      "buff": false
+    },
+    "status": {
+      "name": "burn",
+      "probability": 0.5,
+      "target": "enemy"
+    }
+  },
+  {
+    "id": 4,
+    "name": "Tail Whip",
+    "magic": false,
+    "power": 10,
+    "accuracy": 100,
+    "description": "Hits violently with its tail.",
+    "types": {
+      "attack": true,
+      "heal": false,
+      "buff": false
+    },
+    "status": {
+      "name": "shock",
+      "probability": 0.5,
+      "target": "enemy"
+    }
+  }
+]

@@ -1,0 +1,70 @@
+[
+  {
+    "id": 1,
+    "name": "Shield Boomerang",
+    "magic": false,
+    "power": 50,
+    "accuracy": 80,
+    "description": "Throws his shield which bounces between the enemy and himself.",
+    "types": {
+      "attack": true,
+      "heal": false,
+      "buff": false
+    },
+    "status": {
+      "name": "stun",
+      "probability": 0.1,
+      "target": "all"
+    }
+  },
+   {
+    "id": 2,
+    "name": "Second Wind",
+    "magic": false,
+    "power": 80,
+    "accuracy": 100,
+    "description": "Draws on his inner strength to recover life points.",
+    "cooldown": 1,
+    "types": {
+      "attack": false,
+      "heal": true,
+      "buff": false
+    },
+    "status": {
+      "name": "heal",
+      "probability": 1,
+      "target": "self"
+    }
+  },
+  {
+    "id": 3,
+    "name": "Sword Slash",
+    "magic": false,
+    "power": 60,
+    "accuracy": 90,
+    "description": "Deals damage with a powerful sword strike.",
+    "types": {
+      "attack": true,
+      "heal": false,
+      "buff": false
+    }
+  },
+  {
+    "id": 4,
+    "name": "Charge",
+    "magic": false,
+    "power": 10,
+    "accuracy": 100,
+    "description": "Rushes toward the enemy with great force.",
+    "types": {
+      "attack": true,
+      "heal": false,
+      "buff": false
+    },
+    "status": {
+      "name": "shock",
+      "probability": 0.5,
+      "target": "enemy"
+    }
+  }
+]
