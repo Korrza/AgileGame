@@ -53,18 +53,18 @@ def launch_spell(spell: Spell, target: Player | Robot, caster: Player | Robot) -
         damage = compute_damage(spell.power, caster.statistics.attack)
         target.statistics.current_hp -= damage
         print(
-            f"{Fore.LIGHTBLUE_EX}{caster.name} {Fore.LIGHTCYAN_EX}used {Fore.LIGHTMAGENTA_EX}{spell.name} {Fore.LIGHTCYAN_EX}on {Fore.LIGHTBLUE_EX}{target.name} {Fore.LIGHTCYAN_EX}and deal {Fore.LIGHTYELLOW_EX}{str(damage)} {Fore.LIGHTCYAN_EX}damage !")
+            f"{Fore.LIGHTBLUE_EX}{caster.name} {Fore.LIGHTCYAN_EX}used {Fore.LIGHTMAGENTA_EX}{spell.name} {Fore.LIGHTCYAN_EX}on {Fore.LIGHTBLUE_EX}{target.name} {Fore.LIGHTCYAN_EX}and deal {Fore.LIGHTYELLOW_EX}{damage} {Fore.LIGHTCYAN_EX}damage !")
 
     if spell.types.get("heal"):
         heal = compute_damage(spell.power, caster.statistics.attack)
         caster.statistics.current_hp += heal
         print(
-            f"{Fore.LIGHTBLUE_EX}{caster.name} {Fore.LIGHTCYAN_EX}used {spell.name} {Fore.LIGHTCYAN_EX}on {Fore.LIGHTBLUE_EX}{target.name} {Fore.LIGHTCYAN_EX}and healed {Fore.LIGHTYELLOW_EX}{str(heal)} {Fore.LIGHTCYAN_EX}points !")
+            f"{Fore.LIGHTBLUE_EX}{caster.name} {Fore.LIGHTCYAN_EX}used {Fore.LIGHTMAGENTA_EX}{spell.name} {Fore.LIGHTCYAN_EX}on {Fore.LIGHTBLUE_EX}{target.name} {Fore.LIGHTCYAN_EX}and healed {Fore.LIGHTYELLOW_EX}{heal} {Fore.LIGHTCYAN_EX}points !")
 
     if spell.types.get("buff"):
         # TODO add buff to caster
         print(
-            f"{Fore.LIGHTBLUE_EX}{caster.name} {Fore.LIGHTCYAN_EX}used {spell.name} {Fore.LIGHTCYAN_EX}on {Fore.LIGHTBLUE_EX}{target.name} {Fore.LIGHTCYAN_EX}!")
+            f"{Fore.LIGHTBLUE_EX}{caster.name} {Fore.LIGHTCYAN_EX}used {Fore.LIGHTMAGENTA_EX}{spell.name} {Fore.LIGHTCYAN_EX}on {Fore.LIGHTBLUE_EX}{target.name} {Fore.LIGHTCYAN_EX}!")
 
     if random.randint(1, 100) > spell.accuracy:
         print(f"{Fore.LIGHTRED_EX}The spell missed !\n")
@@ -75,6 +75,6 @@ def launch_spell(spell: Spell, target: Player | Robot, caster: Player | Robot) -
 
 def manage_xp(winner: Player | Robot):
     if winner is not None:
-        print(f"{Fore.LIGHTWHITE_EX}{str(winner.name)} {Fore.LIGHTCYAN_EX}gained {Fore.LIGHTWHITE_EX}{str(10)} {Fore.LIGHTCYAN_EX}experience points.\n")
+        print(f"{Fore.LIGHTWHITE_EX}{winner.name} {Fore.LIGHTCYAN_EX}gained {Fore.LIGHTWHITE_EX}{10} {Fore.LIGHTCYAN_EX}experience points.\n")
     else:
-        print(f"{Fore.LIGHTWHITE_EX}Both players {Fore.LIGHTCYAN_EX}gained {Fore.LIGHTWHITE_EX}{str(5)} {Fore.LIGHTCYAN_EX}experience points.\n")
+        print(f"{Fore.LIGHTWHITE_EX}Both players {Fore.LIGHTCYAN_EX}gained {Fore.LIGHTWHITE_EX}{5} {Fore.LIGHTCYAN_EX}experience points.\n")

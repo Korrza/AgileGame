@@ -16,10 +16,10 @@ class Game:
 
     def get_players_number(self):
         while True:
-            players_number = input(Fore.LIGHTCYAN_EX + "How many players? (1 or 2): ")
+            players_number = input(f"{Fore.LIGHTCYAN_EX}How many players? (1 or 2): ")
             if players_number in {'1', '2'}:
                 break
-            print(Fore.LIGHTRED_EX + "Please enter 1 or 2")
+            print(f"{Fore.LIGHTRED_EX}Please enter 1 or 2")
 
         if players_number == '1':
             self.players.append(create_player())
@@ -31,7 +31,7 @@ class Game:
         print(f"\n{Fore.LIGHTBLUE_EX}{self.players[0].name} {Fore.LIGHTCYAN_EX}VS {Fore.LIGHTBLUE_EX}{self.players[1].name}")
 
     def launch_turn(self):
-        print(Fore.LIGHTCYAN_EX + "\nTURN " + str(self.turn))
+        print(f"\n{Fore.LIGHTCYAN_EX}TURN {self.turn}")
         sleep(0.1)
         for player in self.players:
             if player.statistics.current_hp > 0:

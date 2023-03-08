@@ -12,5 +12,5 @@ def display_winner(winner: Player | Robot):
 
 
 def display_hp(player: Player | Robot, target: Player | Robot):
-    print(f"{Fore.LIGHTBLUE_EX}{target.name} {Fore.LIGHTCYAN_EX}has {Fore.LIGHTGREEN_EX}{str(target.statistics.current_hp)} {Fore.LIGHTCYAN_EX}life points left.")
-    print(f"{Fore.LIGHTBLUE_EX}{player.name} {Fore.LIGHTCYAN_EX}has {Fore.LIGHTGREEN_EX}{str(player.statistics.current_hp)} {Fore.LIGHTCYAN_EX}life points left\n")
+    print(f"{Fore.LIGHTBLUE_EX}{target.name} {Fore.LIGHTCYAN_EX}has {Fore.LIGHTGREEN_EX}{target.statistics.current_hp} {Fore.LIGHTCYAN_EX}life points left.")
+    print(f"{Fore.LIGHTBLUE_EX}{player.name} {Fore.LIGHTCYAN_EX}has {Fore.LIGHTGREEN_EX}{player.statistics.current_hp} {Fore.LIGHTCYAN_EX}life points left\n")
