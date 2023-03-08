@@ -5,6 +5,9 @@ import msvcrt as key
 from Classes.Character import Player, Robot
 from Classes.Spell import Spell
 from Classes.Statistics import Statistics
+from colorama import init, Fore
+
+init(autoreset=True)
 
 
 def get_all_spells() -> list[Spell]:
@@ -45,27 +48,33 @@ def compute_damage(attack: int, power: int) -> int:
     return math.ceil(attack * (power / 100))
 
 
-def launch_spell(spell: Spell, target: Player | Robot, caster: Player | Robot):
-    if random.randint(1, 100) > spell.accuracy:
-        print("The spell missed !")
-
+def launch_spell(spell: Spell, target: Player | Robot, caster: Player | Robot) -> bool:
     if spell.types.get("attack"):
         damage = compute_damage(spell.power, caster.statistics.attack)
         target.statistics.current_hp -= damage
-        print(caster.name + " used " + spell.name + " on " + target.name + " and deal " + str(damage) + " damage!")
+        print(
+            f"{Fore.LIGHTBLUE_EX}{caster.name} {Fore.LIGHTCYAN_EX}used {Fore.LIGHTMAGENTA_EX}{spell.name} {Fore.LIGHTCYAN_EX}on {Fore.LIGHTBLUE_EX}{target.name} {Fore.LIGHTCYAN_EX}and deal {Fore.LIGHTYELLOW_EX}{str(damage)} {Fore.LIGHTCYAN_EX}damage !")
 
     if spell.types.get("heal"):
         heal = compute_damage(spell.power, caster.statistics.attack)
         caster.statistics.current_hp += heal
-        print(caster.name + " used " + spell.name + " on " + caster.name + " and healed for " + str(heal) + " points!")
+        print(
+            f"{Fore.LIGHTBLUE_EX}{caster.name} {Fore.LIGHTCYAN_EX}used {spell.name} {Fore.LIGHTCYAN_EX}on {Fore.LIGHTBLUE_EX}{target.name} {Fore.LIGHTCYAN_EX}and healed {Fore.LIGHTYELLOW_EX}{str(heal)} {Fore.LIGHTCYAN_EX}points !")
 
     if spell.types.get("buff"):
         # TODO add buff to caster
-        print(caster.name + " used " + spell.name + " on " + caster.name + " !")
+        print(
+            f"{Fore.LIGHTBLUE_EX}{caster.name} {Fore.LIGHTCYAN_EX}used {spell.name} {Fore.LIGHTCYAN_EX}on {Fore.LIGHTBLUE_EX}{target.name} {Fore.LIGHTCYAN_EX}!")
+
+    if random.randint(1, 100) > spell.accuracy:
+        print(f"{Fore.LIGHTRED_EX}The spell missed !\n")
+        return False
+
+    return True
 
 
 def manage_xp(winner: Player | Robot):
     if winner is not None:
-        print(str(winner.name) + " gained " + str(10) + " experience points \n")
+        print(f"{Fore.LIGHTWHITE_EX}{str(winner.name)} {Fore.LIGHTCYAN_EX}gained {Fore.LIGHTWHITE_EX}{str(10)} {Fore.LIGHTCYAN_EX}experience points.\n")
     else:
-        print("Both players gained " + str(5) + " experience points \n")
+        print(f"{Fore.LIGHTWHITE_EX}Both players {Fore.LIGHTCYAN_EX}gained {Fore.LIGHTWHITE_EX}{str(5)} {Fore.LIGHTCYAN_EX}experience points.\n")

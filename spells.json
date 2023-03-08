@@ -38,7 +38,7 @@
   },
       {
     "id": 3,
-    "name": "Coup d'Epée",
+    "name": "Coup d'Epee",
     "magic": false,
     "power": 30,
     "accuracy": 100,
