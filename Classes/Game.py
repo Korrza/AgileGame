@@ -76,4 +76,6 @@ class Game:
 
     def restart_game(self):
         print(f"{Fore.LIGHTCYAN_EX}Restarting game\n")
+        self.players = []
+        self.turn = 0
         self.launch_game()
