@@ -1,5 +1,5 @@
-import Statistics
-import Spell
+from Classes.Spell import Spell
+from Classes.Statistics import Statistics
 
 
 class Character:

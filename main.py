@@ -1,5 +1,5 @@
 # hello world
-from Game.game_loop import Game
+from Classes.Game import Game
 
 print("Hello World")
 
