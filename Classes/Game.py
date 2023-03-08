@@ -1,6 +1,8 @@
+import random
 from time import sleep
 import msvcrt as key
 
+from Classes.Character import Robot
 from Utils.character_manager import create_player, create_robot, get_spell, launch_spell, manage_xp
 from Utils.displayer import display_winner, display_hp
 from colorama import init, Fore
@@ -35,7 +37,12 @@ class Game:
         sleep(0.1)
         for player in self.players:
             if player.statistics.current_hp > 0:
-                spell = get_spell(player)
+                if isinstance(player, Robot):
+                    spell_index = random.randint(0, len(player.spells) - 1)
+                    spell = player.spells[spell_index]
+                else:
+                    spell = get_spell(player)
+
                 target = self.players[0] if player == self.players[1] else self.players[1]
                 spell_success = launch_spell(spell, target, player)
                 if spell_success:

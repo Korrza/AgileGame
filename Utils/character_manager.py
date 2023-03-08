@@ -30,7 +30,8 @@ def create_robot() -> Robot:
     return Robot(1, Statistics(100, 100, 10, 10, 0, 0), spells, 0)
 
 
-def get_spell(character: Player | Robot) -> Spell:
+def get_spell(character: Player) -> Spell:
+    print(f"{Fore.LIGHTBLUE_EX}{character.name}{Fore.LIGHTCYAN_EX}, choose your spell. (a/z/e/r)\n")
     key_pressed = key.getch()
 
     match key_pressed:
