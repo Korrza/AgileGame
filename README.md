@@ -1,33 +1,19 @@
-Game Project
+# AGILE GAME
 
-Questions au client:
-_ comment le joueur doit intéragir (inputs)
-_ local ou en ligne pour le multijoueur tour par tour
-_ statistiques, quelle est la méthode d'attaque
-_ création de personnage (aléatoire ou avec des statistiques définies par l'utilisateur ou le programme)
-_ 1 vs 1 ou 1 vs IA (niveau de l'IA)
-_ système de progression (progression simultanée de l'IA?)
-_ fin du jeu ? niveaux ?
-_ date voulue de sortie du jeu ?
+## Description
+Le joueur peut choisir entre jouer contre un robot ou contre un ami. Chaque joueur possède un certain nombre de sorts et de points de vie. Le but est d'éliminer l'autre joueur en utilisant les sorts disponibles.
 
+## Fonctionnalités
+1. Choix entre 1 ou 2 joueurs
+2. Chaque joueur possède une liste de sorts à utiliser
+3. Les sorts ont des puissances et des précisions différentes 
+4. Chaque sort peut causer des dommages ou des altérations d'état 
+5. Les joueurs peuvent gagner de l'expérience en remportant des combats
 
-_ (plusieurs diffcultés?)
+## Installation
+1. Cloner le dépôt GitHub
+2. Installer les dépendances en exécutant `pip install -r requirements.txt`
 
-
-Pokemon
-local
-une attaque par joueur pour l'instant
-l'IA répond par une attaque
-création libre, proposer
-plusieurs IA
-progression persistante
-
-
-Branches:
-
-_ création de personnage
-_ interface
-_ boucle du jeu
-_ IA
-_ sauvegarde, persistance
-_ multijoueur
+## Utilisation
+1. Exécuter le fichier main.py avec `python main.py`
+2. Suivre les instructions pour jouer au jeu
