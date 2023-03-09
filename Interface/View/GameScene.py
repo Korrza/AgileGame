@@ -135,7 +135,7 @@ class GameView(arcade.View):
         if self.players[0].statistics.current_hp > 0 and self.players[1].statistics.current_hp > 0:
 
             if self.players_spell_played != 0:
-                print(get_spell_test(self.players[0], self.players_spell_played))
+                print(get_spell_test(self.players[0], self.players_spell_played - 1))
                 self.players_spell_played = 0
                 self.turn += 1
 
