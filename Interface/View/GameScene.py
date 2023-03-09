@@ -17,6 +17,7 @@ class GameView(arcade.View):
         self.text = "Choose a spell."
         self.turn = 0
         self.background = None
+        self.winner = None
 
         self.shapes = arcade.ShapeElementList()
         color1 = (98, 47, 89)
@@ -37,12 +38,15 @@ class GameView(arcade.View):
         print(spell_info)
 
         if spell_info['damage'] is not None:
-            self.players[1].statistics.current_hp -= spell_info['damage']
+            self.players[1].statistics.current_hp = max(self.players[1].statistics.current_hp - spell_info['damage'], 0)
         if spell_info['heal'] is not None:
-            self.players[0].statistics.current_hp += spell_info['heal']
+            self.players[0].statistics.current_hp = min(self.players[0].statistics.current_hp + spell_info['heal'], self.players[0].statistics.max_hp)
 
         self.text = spell_info['text']
         self.players_spell_played = spell_index + 1
+
+        if self.players[1].statistics.current_hp <= 0:
+            self.winner = self.players[1]
 
     def on_click_spell(self, spell_index):
         spell_info = launch_spell(self.players[0].spells[spell_index], self.players[1], self.players[0])
