@@ -102,12 +102,12 @@ def manage_xp(winner: Player | Robot):
             f"{Fore.LIGHTWHITE_EX}Both players {Fore.LIGHTCYAN_EX}gained {Fore.LIGHTWHITE_EX}{5} {Fore.LIGHTCYAN_EX}experience points.\n")
 
 
-def read_player_type_choice() -> str:
+def read_player_input(message: str, choices: list[str]) -> str:
     while True:
-        player_type_choice = input(f"{Fore.LIGHTCYAN_EX}Choose a character. (m/w/d): ")
-        if player_type_choice in {'m', 'w', 'd'}:
-            return player_type_choice
-        print(f"{Fore.LIGHTRED_EX}Please enter 'm', 'w' or 'd'")
+        player_input = input(f"{Fore.LIGHTCYAN_EX}{message} {choices}")
+        if player_input in choices:
+            return player_input
+        print(f"{Fore.LIGHTRED_EX}Please enter any of: {choices}")
 
 
 def assign_player_type(player_type_choice: str) -> PlayerType:
