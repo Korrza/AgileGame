@@ -10,12 +10,9 @@ from colorama import init, Fore
 
 init(autoreset=True)
 
-# def get_all_spells() -> list[Spell]:
-#     with open("../spells.json", "r") as f:
-
 
 def get_all_player_spells(player_type: PlayerType) -> list[Spell]:
-    with open(f"spells_{player_type.name}.json", "r") as f:
+    with open(f"../spells_{player_type.name}.json", "r") as f:
         spell_data = json.load(f)
 
     return [Spell(**spell) for spell in spell_data]
@@ -23,15 +20,15 @@ def get_all_player_spells(player_type: PlayerType) -> list[Spell]:
 
 def get_all_robot_spells() -> list[Spell]:
     spell_data = []
-    with open(f"spells_mage.json", "r") as f:
+    with open(f"../spells_mage.json", "r") as f:
         mage_spells_data = json.load(f)
         for spell in mage_spells_data:
             spell_data.append(spell)
-    with open(f"spells_warrior.json", "r") as f:
+    with open(f"../spells_warrior.json", "r") as f:
         warrior_spells_data = json.load(f)
         for spell in warrior_spells_data:
             spell_data.append(spell)
-    with open(f"spells_dragon.json", "r") as f:
+    with open(f"../spells_dragon.json", "r") as f:
         dragon_spells_data = json.load(f)
         for spell in dragon_spells_data:
             spell_data.append(spell)

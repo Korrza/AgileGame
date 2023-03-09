@@ -94,7 +94,7 @@ class GameView(arcade.View):
 
     def setup(self):
         game = Game()
-        self.players = game.get_players_number()
+        self.players = game.get_players()
         self.background = arcade.load_texture("Resources/Backgrounds/background.png")
 
     def on_draw(self):
