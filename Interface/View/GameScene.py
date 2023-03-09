@@ -4,7 +4,7 @@ import arcade.gui
 from Interface.SceneProperties import SCREEN_WIDTH, SCREEN_HEIGHT
 from Classes.Game import Game
 from Interface.View.PauseScene import PauseView
-from Utils.character_manager import get_spell, launch_spell
+from Utils.character_manager import launch_spell
 from Utils.scene_manager import create_button
 
 
@@ -14,7 +14,7 @@ class GameView(arcade.View):
         self.manager = arcade.gui.UIManager()
         self.players = []
         self.players_spell_played = 0
-        self.text = "Text"
+        self.text = "Choose a spell."
         self.turn = 0
         self.background = None
 
@@ -33,24 +33,20 @@ class GameView(arcade.View):
         pause_view = PauseView(self)
         self.window.show_view(pause_view)
 
-    def apply_spell(self, spell_info, player_index, spell_index):
+    def apply_spell(self, spell_info, spell_index):
         print(spell_info)
 
-        if spell_info[0]:
-            self.text = "You missed"
-        elif spell_info[2] is not None:
-            self.players[0].statistics.current_hp += spell_info[2]
-            self.text = self.players[player_index].spells[spell_index].name + " and heal"
-            self.players_spell_played = spell_index + 1
-        else:
-            self.players[1].statistics.current_hp -= spell_info[1]
-            self.text = self.players[player_index].spells[spell_index].name
-            self.players_spell_played = spell_index + 1
+        if spell_info['damage'] is not None:
+            self.players[1].statistics.current_hp -= spell_info['damage']
+        if spell_info['heal'] is not None:
+            self.players[0].statistics.current_hp += spell_info['heal']
+
+        self.text = spell_info['text']
+        self.players_spell_played = spell_index + 1
 
     def on_click_spell(self, spell_index):
-        print(f"spell_{spell_index}")
         spell_info = launch_spell(self.players[0].spells[spell_index], self.players[1], self.players[0])
-        self.apply_spell(spell_info, 0, spell_index)
+        self.apply_spell(spell_info, 0)
 
     def on_show_view(self):
         self.setup()
@@ -116,7 +112,6 @@ class GameView(arcade.View):
         if self.players[0].statistics.current_hp > 0 and self.players[1].statistics.current_hp > 0:
 
             if self.players_spell_played != 0:
-                print(get_spell(self.players[0], self.players_spell_played - 1))
                 self.players_spell_played = 0
                 self.turn += 1
 
