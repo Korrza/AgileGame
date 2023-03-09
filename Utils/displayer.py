@@ -4,11 +4,12 @@ from colorama import init, Fore
 init(autoreset=True)
 
 
-def display_winner(winner: Player | Robot):
+def display_winner(winner: Player | Robot) -> str:
     if winner is None:
-        print(f"{Fore.LIGHTWHITE_EX}IT'S A DRAW ! \n")
+        text = "IT'S A DRAW !"
     else:
-        print(f"{Fore.LIGHTCYAN_EX}THE WINNER IS {Fore.LIGHTWHITE_EX}{winner.name} {Fore.LIGHTCYAN_EX}! \n")
+        text = f"{winner.name.upper()} WON !"
+    return text
 
 
 def display_hp(player: Player | Robot, target: Player | Robot):

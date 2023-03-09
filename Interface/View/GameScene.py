@@ -1,3 +1,5 @@
+import random
+
 import arcade
 import arcade.gui
 
@@ -5,6 +7,7 @@ from Interface.SceneProperties import SCREEN_WIDTH, SCREEN_HEIGHT
 from Classes.Game import Game
 from Interface.View.PauseScene import PauseView
 from Utils.character_manager import launch_spell
+from Utils.displayer import display_winner
 from Utils.scene_manager import create_button
 
 
@@ -34,23 +37,45 @@ class GameView(arcade.View):
         pause_view = PauseView(self)
         self.window.show_view(pause_view)
 
-    def apply_spell(self, spell_info, spell_index):
+    def robot_apply_spell(self, spell_info):
         print(spell_info)
 
         if spell_info['damage'] is not None:
-            self.players[1].statistics.current_hp = max(self.players[1].statistics.current_hp - spell_info['damage'], 0)
+            self.players[0].statistics.current_hp = max(self.players[0].statistics.current_hp - spell_info['damage'], 0)
         if spell_info['heal'] is not None:
-            self.players[0].statistics.current_hp = min(self.players[0].statistics.current_hp + spell_info['heal'], self.players[0].statistics.max_hp)
+            self.players[1].statistics.current_hp = min(self.players[1].statistics.current_hp + spell_info['heal'], self.players[1].statistics.max_hp)
+
+        self.text = spell_info['text']
+
+        if self.players[0].statistics.current_hp <= 0:
+            self.winner = self.players[1]
+
+    def apply_spell(self, spell_info, spell_index, caster_index: int, target_index: int):
+        print(spell_info)
+
+        if spell_info['damage'] is not None:
+            self.players[target_index].statistics.current_hp = max(self.players[target_index].statistics.current_hp - spell_info['damage'], 0)
+        if spell_info['heal'] is not None:
+            self.players[caster_index].statistics.current_hp = min(self.players[caster_index].statistics.current_hp + spell_info['heal'], self.players[caster_index].statistics.max_hp)
 
         self.text = spell_info['text']
         self.players_spell_played = spell_index + 1
 
-        if self.players[1].statistics.current_hp <= 0:
-            self.winner = self.players[1]
+    def robot_play(self):
+        spell = random.choice(self.players[1].spells)
+        spell_info = launch_spell(spell, self.players[0], self.players[1])
+        self.apply_spell(spell_info, 1, 1, 0)
 
     def on_click_spell(self, spell_index):
         spell_info = launch_spell(self.players[0].spells[spell_index], self.players[1], self.players[0])
-        self.apply_spell(spell_info, 0)
+        self.apply_spell(spell_info, 0, 0, 1)
+
+        if self.players[1].statistics.current_hp > 0:
+            self.robot_play()
+            if self.players[0].statistics.current_hp <= 0:
+                self.winner = self.players[1]
+        else:
+            self.winner = self.players[0]
 
     def on_show_view(self):
         self.setup()
@@ -70,8 +95,11 @@ class GameView(arcade.View):
     def buttons_initialisation(self, h_box):
         number_of_spells = len(self.players[0].spells)
         for i in range(number_of_spells):
-            spell = create_button(h_box, f"Spell {i + 1}")
-            spell.on_click = lambda event, spell_index=i: self.on_click_spell(spell_index)
+            if self.winner is None:
+                spell_button = create_button(h_box, f"Spell {i + 1}")
+                spell_button.on_click = lambda event, spell_index=i: self.on_click_spell(spell_index)
+            else:
+                create_button(h_box, f"Spell {i + 1}", enabled=False)
 
     def setup(self):
         game = Game()
@@ -113,12 +141,13 @@ class GameView(arcade.View):
 
     def on_update(self, delta_time):
 
-        if self.players[0].statistics.current_hp > 0 and self.players[1].statistics.current_hp > 0:
+        if self.winner is None:
 
             if self.players_spell_played != 0:
                 self.players_spell_played = 0
                 self.turn += 1
 
-        # winner = self.get_winner()
-        # display_winner(winner)
-        # manage_xp(winner)
+        else:
+            self.text = display_winner(self.winner)
+            self.manager.disable()
+            # manage_xp(winner)
