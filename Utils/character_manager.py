@@ -36,7 +36,7 @@ def get_all_robot_spells() -> list[Spell]:
     return [Spell(**spell) for spell in spell_data]
 
 
-def create_player(player_type: PlayerType, second_player: bool) -> Player:
+def create_player(player_type: PlayerType, second_player: bool = False) -> Player:
     spells = get_all_player_spells(player_type)
     return Player(_id=1, statistics=Statistics(100, 100, 10, 10, 0, 0), spells=spells, status=0,
                   player_type=player_type,
@@ -102,18 +102,18 @@ def manage_xp(winner: Player | Robot):
             f"{Fore.LIGHTWHITE_EX}Both players {Fore.LIGHTCYAN_EX}gained {Fore.LIGHTWHITE_EX}{5} {Fore.LIGHTCYAN_EX}experience points.\n")
 
 
-def choose_character_type(players: list, second_player: bool = False):
+def read_player_type_choice() -> str:
     while True:
         player_type_choice = input(f"{Fore.LIGHTCYAN_EX}Choose a character. (m/w/d): ")
         if player_type_choice in {'m', 'w', 'd'}:
-            player_type = ""
-            match player_type_choice:
-                case 'm':
-                    player_type = PlayerType.MAGE
-                case 'w':
-                    player_type = PlayerType.WARRIOR
-                case 'd':
-                    player_type = PlayerType.DRAGON
-            players.append(create_player(player_type, second_player))
-            break
+            return player_type_choice
         print(f"{Fore.LIGHTRED_EX}Please enter 'm', 'w' or 'd'")
+
+
+def assign_player_type(player_type_choice: str) -> PlayerType:
+    return {
+        'm': PlayerType.MAGE,
+        'w': PlayerType.WARRIOR,
+        'd': PlayerType.DRAGON
+    }[player_type_choice]
+

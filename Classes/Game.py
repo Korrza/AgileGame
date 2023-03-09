@@ -4,7 +4,7 @@ import msvcrt as key
 
 from Classes.Character import Robot
 from Utils.character_manager import create_robot, get_spell, launch_spell, manage_xp, \
-    choose_character_type
+    assign_player_type, create_player, read_player_type_choice
 from Utils.displayer import display_winner, display_hp
 from colorama import init, Fore
 
@@ -25,12 +25,22 @@ class Game:
             print(f"{Fore.LIGHTRED_EX}Please enter 1 or 2")
 
         if players_number == '1':
-            choose_character_type(self.players)
+            player_type_choice = read_player_type_choice()
+
+            player_type = assign_player_type(player_type_choice)
+
+            self.players.append(create_player(player_type))
             self.players.append(create_robot())
 
         elif players_number == '2':
-            choose_character_type(self.players)
-            choose_character_type(self.players, second_player=True)
+            first_player_type_choice = read_player_type_choice()
+            second_player_type_choice = read_player_type_choice()
+
+            first_player_type = assign_player_type(first_player_type_choice)
+            second_player_type = assign_player_type(second_player_type_choice)
+
+            self.players.append(create_player(first_player_type))
+            self.players.append(create_player(second_player_type, second_player=True))
 
         print(f"\n{Fore.LIGHTBLUE_EX}{self.players[0].name} {Fore.LIGHTCYAN_EX}VS {Fore.LIGHTBLUE_EX}{self.players[1].name}")
 
