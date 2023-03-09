@@ -42,10 +42,6 @@ def create_robot() -> Robot:
     return Robot(_id=1, statistics=Statistics(100, 100, 10, 10, 0, 0), spells=spells, status=0)
 
 
-# def get_spell(character: Player | Robot, spell_pos: int) -> Spell:
-#     return character.spells[spell_pos]
-
-
 def compute_damage(attack: int, power: int) -> int:
     return math.ceil(attack * (power / 100))
 
