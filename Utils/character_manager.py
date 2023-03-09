@@ -8,7 +8,7 @@ from Classes.Statistics import Statistics
 
 
 def get_all_spells() -> list[Spell]:
-    with open("spells.json", "r") as f:
+    with open("../spells.json", "r") as f:
         spell_data = json.load(f)
 
     return [Spell(**spell) for spell in spell_data]
@@ -28,7 +28,7 @@ def create_robot() -> Robot:
 
 
 def get_spell(character: Player | Robot) -> Spell:
-    key_pressed = key.getch()
+    key_pressed = b'a'
 
     match key_pressed:
         case b'a':
@@ -41,27 +41,37 @@ def get_spell(character: Player | Robot) -> Spell:
             return character.spells[3]
 
 
+def get_spell_test(character: Player | Robot, spell_pos: int) -> Spell:
+    return character.spells[spell_pos]
+
+
 def compute_damage(attack: int, power: int) -> int:
     return math.ceil(attack * (power / 100))
 
 
 def launch_spell(spell: Spell, target: Player | Robot, caster: Player | Robot):
+    miss = False
+    damage = None
+    heal = None
+    buff = None
     if random.randint(1, 100) > spell.accuracy:
         print("The spell missed !")
+        return True, None, None, None
 
     if spell.types.get("attack"):
         damage = compute_damage(spell.power, caster.statistics.attack)
-        target.statistics.current_hp -= damage
         print(caster.name + " used " + spell.name + " on " + target.name + " and deal " + str(damage) + " damage!")
 
     if spell.types.get("heal"):
         heal = compute_damage(spell.power, caster.statistics.attack)
-        caster.statistics.current_hp += heal
+        # caster.statistics.current_hp += heal
         print(caster.name + " used " + spell.name + " on " + caster.name + " and healed for " + str(heal) + " points!")
 
     if spell.types.get("buff"):
         # TODO add buff to caster
         print(caster.name + " used " + spell.name + " on " + caster.name + " !")
+
+    return miss, damage, heal, buff
 
 
 def manage_xp(winner: Player | Robot):
