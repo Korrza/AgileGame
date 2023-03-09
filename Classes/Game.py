@@ -41,9 +41,11 @@ class Game:
 
         print(f"\n{Fore.LIGHTBLUE_EX}{self.players[0].name} {Fore.LIGHTCYAN_EX}VS {Fore.LIGHTBLUE_EX}{self.players[1].name}")
 
+        # return self.players
+
     def launch_turn(self):
         print(f"\n{Fore.LIGHTCYAN_EX}TURN {self.turn}")
-        sleep(0.1)
+        # sleep(0.1)
         for player in self.players:
             if player.statistics.current_hp > 0:
                 if isinstance(player, Robot):
@@ -69,26 +71,26 @@ class Game:
         else:
             return None
 
-    def launch_game(self):
-        self.get_players()
-
-        # Game loop
-        self.turn = 1
-
-        while self.players[0].statistics.current_hp > 0 and self.players[1].statistics.current_hp > 0:
-            self.launch_turn()
-
-        winner = self.get_winner()
-        display_winner(winner)
-        manage_xp(winner)
-
-        print(f"{Fore.LIGHTCYAN_EX}Do you want to restart the game ? (y/n)\n")
-
-        key_pressed = key.getch()
-        if key_pressed == b'y':
-            self.restart_game()
-        else:
-            print(f"{Fore.LIGHTCYAN_EX}Thanks for playing !")
+    # def launch_game(self):
+    #     self.get_players()
+    #
+    #     # Game loop
+    #     self.turn = 1
+    #
+    #     while self.players[0].statistics.current_hp > 0 and self.players[1].statistics.current_hp > 0:
+    #         self.launch_turn()
+    #
+    #     winner = self.get_winner()
+    #     display_winner(winner)
+    #     manage_xp(winner)
+    #
+    #     print(f"{Fore.LIGHTCYAN_EX}Do you want to restart the game ? (y/n)\n")
+    #
+    #     key_pressed = key.getch()
+    #     if key_pressed == b'y':
+    #         self.restart_game()
+    #     else:
+    #         print(f"{Fore.LIGHTCYAN_EX}Thanks for playing !")
 
     def restart_game(self):
         print(f"{Fore.LIGHTCYAN_EX}Restarting game\n")

@@ -10,6 +10,9 @@ from colorama import init, Fore
 
 init(autoreset=True)
 
+# def get_all_spells() -> list[Spell]:
+#     with open("../spells.json", "r") as f:
+
 
 def get_all_player_spells(player_type: PlayerType) -> list[Spell]:
     with open(f"spells_{player_type.name}.json", "r") as f:
@@ -64,11 +67,15 @@ def get_spell(character: Player) -> Spell:
             return character.spells[3]
 
 
+def get_spell_test(character: Player | Robot, spell_pos: int) -> Spell:
+    return character.spells[spell_pos]
+
+
 def compute_damage(attack: int, power: int) -> int:
     return math.ceil(attack * (power / 100))
 
 
-def launch_spell(spell: Spell, target: Player | Robot, caster: Player | Robot) -> bool:
+def launch_spell_origin(spell: Spell, target: Player | Robot, caster: Player | Robot) -> bool:
     if spell.types.get("attack"):
         damage = compute_damage(spell.power, caster.statistics.attack)
         target.statistics.current_hp -= damage
@@ -91,6 +98,31 @@ def launch_spell(spell: Spell, target: Player | Robot, caster: Player | Robot) -
         return False
 
     return True
+
+
+def launch_spell(spell: Spell, target: Player | Robot, caster: Player | Robot):
+    miss = False
+    damage = None
+    heal = None
+    buff = None
+    if random.randint(1, 100) > spell.accuracy:
+        print("The spell missed !")
+        return True, None, None, None
+
+    if spell.types.get("attack"):
+        damage = compute_damage(spell.power, caster.statistics.attack)
+        print(caster.name + " used " + spell.name + " on " + target.name + " and deal " + str(damage) + " damage!")
+
+    if spell.types.get("heal"):
+        heal = compute_damage(spell.power, caster.statistics.attack)
+        # caster.statistics.current_hp += heal
+        print(caster.name + " used " + spell.name + " on " + caster.name + " and healed for " + str(heal) + " points!")
+
+    if spell.types.get("buff"):
+        # TODO add buff to caster
+        print(caster.name + " used " + spell.name + " on " + caster.name + " !")
+
+    return miss, damage, heal, buff
 
 
 def manage_xp(winner: Player | Robot):
