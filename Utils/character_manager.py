@@ -16,12 +16,12 @@ def load_spells_from_file(file_path: str) -> list[Spell]:
     return [Spell(**spell) for spell in spell_data]
 
 
-def get_all_player_spells(player_type: PlayerType) -> list[Spell]:
+def assign_all_player_spells(player_type: PlayerType) -> list[Spell]:
     file_path = f"../spells_{player_type.name}.json"
     return load_spells_from_file(file_path)
 
 
-def get_all_robot_spells() -> list[Spell]:
+def assign_all_robot_spells() -> list[Spell]:
     file_paths = [f"../spells_{robot_type}.json" for robot_type in ["mage", "warrior", "dragon"]]
     spells = []
     for file_path in file_paths:
@@ -30,14 +30,14 @@ def get_all_robot_spells() -> list[Spell]:
 
 
 def create_player(player_type: PlayerType, second_player: bool = False) -> Player:
-    spells = get_all_player_spells(player_type)
+    spells = assign_all_player_spells(player_type)
     return Player(_id=1, statistics=Statistics(100, 100, 10, 10, 0, 0), spells=spells, status=0,
                   player_type=player_type,
                   second_player=second_player)
 
 
 def create_robot() -> Robot:
-    spells = get_all_robot_spells()
+    spells = assign_all_robot_spells()
 
     return Robot(_id=1, statistics=Statistics(100, 100, 10, 10, 0, 0), spells=spells, status=0)
 
