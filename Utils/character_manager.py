@@ -1,7 +1,6 @@
 import json
 import math
 import random
-import msvcrt as key
 from Classes.Character import Player, Robot
 from Classes.PlayerType import PlayerType
 from Classes.Spell import Spell
