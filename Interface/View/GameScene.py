@@ -3,7 +3,9 @@ import arcade.gui
 
 from Interface.SceneProperties import SCREEN_WIDTH, SCREEN_HEIGHT
 from Classes.Game import Game
+from Interface.View.PauseScene import PauseView
 from Utils.character_manager import get_spell_test, launch_spell
+from Utils.game import create_button
 
 
 class GameView(arcade.View):
@@ -23,6 +25,14 @@ class GameView(arcade.View):
         colors = (color1, color1, color2, color2)
         self.shapes.append(arcade.create_rectangle_filled_with_colors(points, colors))
 
+    def on_key_press(self, key, modifiers):
+        if key == arcade.key.ESCAPE:
+            self.pause()
+
+    def pause(self):
+        pause_view = PauseView(self)
+        self.window.show_view(pause_view)
+
     def apply_spell(self, spell_info, player_index, spell_index):
         print(spell_info)
 
@@ -37,25 +47,10 @@ class GameView(arcade.View):
             self.text = self.players[player_index].spells[spell_index].name
             self.players_spell_played = spell_index + 1
 
-    def on_click_spell_1(self, event):
-        print("spell_1")
-        spell_info = launch_spell(self.players[0].spells[0], self.players[1], self.players[0])
-        self.apply_spell(spell_info, 0, 0)
-
-    def on_click_spell_2(self, event):
-        print("spell_2")
-        spell_info = launch_spell(self.players[0].spells[1], self.players[1], self.players[0])
-        self.apply_spell(spell_info, 0, 1)
-
-    def on_click_spell_3(self, event):
-        print("spell_3")
-        spell_info = launch_spell(self.players[0].spells[2], self.players[1], self.players[0])
-        self.apply_spell(spell_info, 0, 2)
-
-    def on_click_spell_4(self, event):
-        print("spell_4")
-        spell_info = launch_spell(self.players[0].spells[3], self.players[1], self.players[0])
-        self.apply_spell(spell_info, 0, 3)
+    def on_click_spell(self, spell_index):
+        print(f"spell_{spell_index}")
+        spell_info = launch_spell(self.players[0].spells[spell_index], self.players[1], self.players[0])
+        self.apply_spell(spell_info, 0, spell_index)
 
     def on_show_view(self):
         self.setup()
@@ -65,8 +60,6 @@ class GameView(arcade.View):
 
         self.buttons_initialisation(h_box)
 
-        self.manager.add(arcade.gui.UIAnchorWidget(anchor_x='center_x', anchor_y='bottom', child=h_box))
-
         self.manager.add(
             arcade.gui.UIAnchorWidget(
                 anchor_x="center_x",
@@ -74,23 +67,11 @@ class GameView(arcade.View):
                 child=h_box)
         )
 
-    @staticmethod
-    def create_button(h_box, text):
-        spell = arcade.gui.UIFlatButton(text=f"{text}", width=200)
-        h_box.add(spell.with_space_around(right=10, bottom=20))
-
-        return spell
-
     def buttons_initialisation(self, h_box):
-        spell_1 = self.create_button(h_box, 'Spell 1')
-        spell_2 = self.create_button(h_box, 'Spell 2')
-        spell_3 = self.create_button(h_box, 'Spell 3')
-        spell_4 = self.create_button(h_box, 'Spell 4')
-
-        spell_1.on_click = self.on_click_spell_1
-        spell_2.on_click = self.on_click_spell_2
-        spell_3.on_click = self.on_click_spell_3
-        spell_4.on_click = self.on_click_spell_4
+        number_of_spells = len(self.players[0].spells)
+        for i in range(number_of_spells):
+            spell = create_button(h_box, f"Spell {i + 1}")
+            spell.on_click = lambda event, spell_index=i: self.on_click_spell(spell_index)
 
     def setup(self):
         game = Game()

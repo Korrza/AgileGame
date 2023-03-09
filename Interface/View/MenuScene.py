@@ -3,9 +3,15 @@ import arcade.gui
 
 from Interface.SceneProperties import SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE
 from Interface.View.GameScene import GameView
+from Utils.game import quit_game
 
 
 class MenuView(arcade.View):
+    BUTTON_WIDTH = 200
+    BUTTON_MARGIN_BOTTOM = 20
+    START_BUTTON = "Start Game"
+    QUIT_BUTTON = "Quit Game"
+
     def __init__(self):
         super().__init__()
         self.manager = arcade.gui.UIManager()
@@ -13,13 +19,13 @@ class MenuView(arcade.View):
 
         self.v_box = arcade.gui.UIBoxLayout()
 
-        start_button = arcade.gui.UIFlatButton(text="Start Game", width=200)
-        self.v_box.add(start_button.with_space_around(bottom=20))
+        start_button = arcade.gui.UIFlatButton(text=self.START_BUTTON, width=self.BUTTON_WIDTH)
+        self.v_box.add(start_button.with_space_around(bottom=self.BUTTON_MARGIN_BOTTOM))
         start_button.on_click = self.start_button
 
-        quit_button = arcade.gui.UIFlatButton(text="Quit Game", width=200)
+        quit_button = arcade.gui.UIFlatButton(text=self.QUIT_BUTTON, width=self.BUTTON_WIDTH)
         self.v_box.add(quit_button)
-        quit_button.on_click = self.quit_game
+        quit_button.on_click = quit_game
 
         self.manager = arcade.gui.UIManager()
         self.manager.enable()
@@ -32,14 +38,9 @@ class MenuView(arcade.View):
         )
 
     def start_button(self, event):
-        print("Start Game")
+        print(self.START_BUTTON)
         game_view = GameView()
         self.window.show_view(game_view)
-
-    @staticmethod
-    def quit_game(event):
-        print("Quit Game")
-        arcade.close_window()
 
     def on_show_view(self):
         arcade.set_background_color(arcade.color.DARK_BLUE_GRAY)
