@@ -3,6 +3,7 @@ from time import sleep
 import msvcrt as key
 
 from Classes.Character import Robot
+from Constants.inputs import PLAYERS_NB_MESSAGE, PLAYERS_NB_CHOICES, CHARACTER_MESSAGE, CHARACTER_CHOICES
 from Utils.character_manager import create_robot, get_spell, launch_spell, manage_xp, \
     assign_player_type, create_player, read_player_input
 from Utils.displayer import display_winner, display_hp
@@ -18,10 +19,10 @@ class Game:
         self.turn = 0
 
     def get_players(self):
-        players_number = read_player_input("How many players?", ["1", "2"])
+        players_number = read_player_input(PLAYERS_NB_MESSAGE, PLAYERS_NB_CHOICES)
 
         if players_number == '1':
-            player_type_choice = read_player_input("Choose a character:", ["m", "w", "d"])
+            player_type_choice = read_player_input(CHARACTER_MESSAGE, CHARACTER_CHOICES)
 
             player_type = assign_player_type(player_type_choice)
 
@@ -29,8 +30,8 @@ class Game:
             self.players.append(create_robot())
 
         elif players_number == '2':
-            first_player_type_choice = read_player_input("Choose a character:", ["m", "w", "d"])
-            second_player_type_choice = read_player_input("Choose a character:", ["m", "w", "d"])
+            first_player_type_choice = read_player_input(CHARACTER_MESSAGE, CHARACTER_CHOICES)
+            second_player_type_choice = read_player_input(CHARACTER_MESSAGE, CHARACTER_CHOICES)
 
             first_player_type = assign_player_type(first_player_type_choice)
             second_player_type = assign_player_type(second_player_type_choice)
