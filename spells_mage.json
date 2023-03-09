@@ -55,7 +55,7 @@
     "magic": true,
     "power": 10,
     "accuracy": 100,
-    "description": " Gèle l'ennemi, le rendant incapable d'attaquer pendant un tour.",
+    "description": "Freezes the enemy, rendering it unable to attack for one turn.",
     "types": {
       "attack": true,
       "heal": false,
