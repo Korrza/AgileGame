@@ -1,3 +1,5 @@
+import random
+
 from Classes.PlayerType import PlayerType
 from Classes.Spell import Spell
 from Classes.Statistics import Statistics
