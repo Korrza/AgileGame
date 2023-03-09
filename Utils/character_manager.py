@@ -27,7 +27,6 @@ def get_all_robot_spells() -> list[Spell]:
     spells = []
     for file_path in file_paths:
         spells.extend(load_spells_from_file(file_path))
-    print(len(spells))
     return spells
 
 
@@ -44,52 +43,12 @@ def create_robot() -> Robot:
     return Robot(_id=1, statistics=Statistics(100, 100, 10, 10, 0, 0), spells=spells, status=0)
 
 
-def get_spell(character: Player) -> Spell:
-    print(f"{Fore.LIGHTBLUE_EX}{character.name}{Fore.LIGHTCYAN_EX}, choose your spell. (a/z/e/r)\n")
-    key_pressed = key.getch()
-
-    match key_pressed:
-        case b'a':
-            return character.spells[0]
-        case b'z':
-            return character.spells[1]
-        case b'e':
-            return character.spells[2]
-        case b'r':
-            return character.spells[3]
-
-
-def get_spell_test(character: Player | Robot, spell_pos: int) -> Spell:
+def get_spell(character: Player | Robot, spell_pos: int) -> Spell:
     return character.spells[spell_pos]
 
 
 def compute_damage(attack: int, power: int) -> int:
     return math.ceil(attack * (power / 100))
-
-
-def launch_spell_origin(spell: Spell, target: Player | Robot, caster: Player | Robot) -> bool:
-    if spell.types.get("attack"):
-        damage = compute_damage(spell.power, caster.statistics.attack)
-        target.statistics.current_hp -= damage
-        print(
-            f"{Fore.LIGHTBLUE_EX}{caster.name} {Fore.LIGHTCYAN_EX}used {Fore.LIGHTMAGENTA_EX}{spell.name} {Fore.LIGHTCYAN_EX}on {Fore.LIGHTBLUE_EX}{target.name} {Fore.LIGHTCYAN_EX}and deal {Fore.LIGHTYELLOW_EX}{damage} {Fore.LIGHTCYAN_EX}damage !")
-
-    if spell.types.get("heal"):
-        heal = compute_damage(spell.power, caster.statistics.attack)
-        caster.statistics.current_hp += heal
-        print(
-            f"{Fore.LIGHTBLUE_EX}{caster.name} {Fore.LIGHTCYAN_EX}used {Fore.LIGHTMAGENTA_EX}{spell.name} {Fore.LIGHTCYAN_EX}on {Fore.LIGHTBLUE_EX}{target.name} {Fore.LIGHTCYAN_EX}and healed {Fore.LIGHTYELLOW_EX}{heal} {Fore.LIGHTCYAN_EX}points !")
-
-    if spell.types.get("buff"):
-        # TODO add buff to caster
-        print(
-            f"{Fore.LIGHTBLUE_EX}{caster.name} {Fore.LIGHTCYAN_EX}used {Fore.LIGHTMAGENTA_EX}{spell.name} {Fore.LIGHTCYAN_EX}on {Fore.LIGHTBLUE_EX}{target.name} {Fore.LIGHTCYAN_EX}!")
-
-    if random.randint(1, 100) > spell.accuracy:
-        print(f"{Fore.LIGHTRED_EX}The spell missed !\n")
-        return False
-
-    return True
 
 
 def launch_spell(spell: Spell, target: Player | Robot, caster: Player | Robot):

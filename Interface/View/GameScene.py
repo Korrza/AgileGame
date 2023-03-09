@@ -4,7 +4,7 @@ import arcade.gui
 from Interface.SceneProperties import SCREEN_WIDTH, SCREEN_HEIGHT
 from Classes.Game import Game
 from Interface.View.PauseScene import PauseView
-from Utils.character_manager import get_spell_test, launch_spell
+from Utils.character_manager import get_spell, launch_spell
 from Utils.game import create_button
 
 
@@ -116,7 +116,7 @@ class GameView(arcade.View):
         if self.players[0].statistics.current_hp > 0 and self.players[1].statistics.current_hp > 0:
 
             if self.players_spell_played != 0:
-                print(get_spell_test(self.players[0], self.players_spell_played - 1))
+                print(get_spell(self.players[0], self.players_spell_played - 1))
                 self.players_spell_played = 0
                 self.turn += 1
 
