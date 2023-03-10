@@ -25,7 +25,7 @@ class MenuView(arcade.View):
         self.v_box.add(start_button.with_space_around(bottom=20))
         start_button.on_click = self.show_view
 
-        start_button = arcade.gui.UIFlatButton(text="2 Player", width=200)
+        start_button = arcade.gui.UIFlatButton(text="2 Players", width=200)
         self.v_box.add(start_button.with_space_around(bottom=20))
         start_button.on_click = self.show_multi_view
 
