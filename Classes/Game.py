@@ -1,3 +1,4 @@
+from Classes.Character import Robot, Player
 from Classes.PlayerType import PlayerType
 from Utils.character_manager import create_robot, assign_player_type, create_player
 from colorama import init
@@ -13,7 +14,7 @@ class Game:
         self.multiplayer = multiplayer
         self.players_type = players_type
 
-    def get_players(self) -> []:
+    def get_players(self) -> list[Player | Robot]:
         if self.multiplayer:
             first_player_type = self.players_type[0]
             second_player_type = self.players_type[1]

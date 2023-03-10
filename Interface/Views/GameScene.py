@@ -34,6 +34,8 @@ class GameView(arcade.View):
 
         self.multiplayer = multiplayer
         self.players_type = players_type
+        self.caster_index = 0
+        self.target_index = 1
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.ESCAPE:
@@ -69,7 +71,7 @@ class GameView(arcade.View):
 
     def robot_play(self, delta_time):
         spell = random.choice(self.players[1].spells)
-        spell_info = launch_spell(spell, self.players[0], self.players[1])
+        spell_info = launch_spell(spell, self.players[self.caster_index], self.players[1])
         self.apply_spell(spell_info, 1, 1, 0)
         self.manager.enable()
 
@@ -77,16 +79,24 @@ class GameView(arcade.View):
         schedule_once(self.robot_play, delay)
 
     def on_click_spell(self, spell_index):
-        spell_info = launch_spell(self.players[0].spells[spell_index], self.players[1], self.players[0])
-        self.apply_spell(spell_info, 0, 0, 1)
+        spell_info = launch_spell(self.players[self.caster_index].spells[spell_index], self.players[self.target_index], self.players[self.caster_index])
+        self.apply_spell(spell_info, spell_index, self.caster_index, self.target_index)
 
-        if self.players[1].statistics.current_hp > 0:
-            self.manager.disable()
-            self.robot_play_with_delay(self.robot_delay)
-            if self.players[0].statistics.current_hp <= 0:
-                self.winner = self.players[1]
+        if self.players[self.target_index].statistics.current_hp > 0:
+            if self.multiplayer:
+                if self.caster_index == 0:
+                    self.caster_index = 1
+                    self.target_index = 0
+                else:
+                    self.caster_index = 0
+                    self.target_index = 1
+            else:
+                self.manager.disable()
+                self.robot_play_with_delay(self.robot_delay)
+                if self.players[self.caster_index].statistics.current_hp <= 0:
+                    self.winner = self.players[self.target_index]
         else:
-            self.winner = self.players[0]
+            self.winner = self.players[self.caster_index]
 
     def on_show_view(self):
         self.setup()
@@ -104,13 +114,13 @@ class GameView(arcade.View):
         )
 
     def buttons_initialisation(self, h_box):
-        number_of_spells = len(self.players[0].spells)
+        number_of_spells = len(self.players[self.caster_index].spells)
         for i in range(number_of_spells):
             if self.winner is None:
-                spell_button = create_button(h_box, f"{self.players[0].spells[i].name}")
+                spell_button = create_button(h_box, f"{self.players[self.caster_index].spells[i].name}")
                 spell_button.on_click = lambda event, spell_index=i: self.on_click_spell(spell_index)
             else:
-                create_button(h_box, f"Spell {i + 1}", enabled=False)
+                create_button(h_box, f"{self.players[self.caster_index].spells[i].name}", enabled=False)
 
     def setup(self):
         game = Game(self.multiplayer, self.players_type)
