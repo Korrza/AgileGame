@@ -26,6 +26,7 @@ class GameView(arcade.View):
         self.winner = None
         self.left_player = None
         self.right_player = None
+        self.p_color = arcade.color.LIGHT_BLUE
 
         self.shapes = arcade.ShapeElementList()
         color1 = (98, 47, 89)
@@ -89,9 +90,11 @@ class GameView(arcade.View):
                 if self.caster_index == 0:
                     self.caster_index = 1
                     self.target_index = 0
+                    self.p_color = arcade.color.RED_ORANGE
                 else:
                     self.caster_index = 0
                     self.target_index = 1
+                    self.p_color = arcade.color.LIGHT_BLUE
 
                 self.on_show_view()
             else:
@@ -121,10 +124,10 @@ class GameView(arcade.View):
         number_of_spells = len(self.players[self.caster_index].spells)
         for i in range(number_of_spells):
             if self.winner is None:
-                spell_button = create_button(h_box, f"{self.players[self.caster_index].spells[i].name}")
+                spell_button = create_button(h_box, f"{self.players[self.caster_index].spells[i].name}", self.p_color)
                 spell_button.on_click = lambda event, spell_index=i: self.on_click_spell(spell_index)
             else:
-                create_button(h_box, f"{self.players[self.caster_index].spells[i].name}", enabled=False)
+                create_button(h_box, f"{self.players[self.caster_index].spells[i].name}", self.p_color, enabled=False)
 
     def setup(self):
         if len(self.players) == 0:
