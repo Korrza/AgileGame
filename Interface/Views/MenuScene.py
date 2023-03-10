@@ -213,9 +213,9 @@ class SoloChooserView(arcade.View):
     def show_stats_values():
         arcade.draw_text("100", 270, SCREEN_HEIGHT / 2 + 80, arcade.color.ANDROID_GREEN,
                          font_size=20, anchor_x="center")
-        arcade.draw_text("20", 270, SCREEN_HEIGHT / 2 + 15, arcade.color.RED_ORANGE,
+        arcade.draw_text("30", 270, SCREEN_HEIGHT / 2 + 15, arcade.color.RED_ORANGE,
                          font_size=20, anchor_x="center")
-        arcade.draw_text("30", 270, SCREEN_HEIGHT / 2 - 45, arcade.color.PURPLE_HEART,
+        arcade.draw_text("20", 270, SCREEN_HEIGHT / 2 - 45, arcade.color.PURPLE_HEART,
                          font_size=20, anchor_x="center")
         arcade.draw_text("10", 270, SCREEN_HEIGHT / 2 - 105, arcade.color.BONE,
                          font_size=20, anchor_x="center")
