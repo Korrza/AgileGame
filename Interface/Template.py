@@ -1,7 +1,7 @@
 import arcade
 import arcade.gui
 from Interface.SceneProperties import SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE
-from Interface.View.MenuScene import MenuView
+from Interface.Views.MenuScene import MenuView
 
 
 def main():

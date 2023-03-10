@@ -5,7 +5,7 @@ import arcade.gui
 
 from Interface.SceneProperties import SCREEN_WIDTH, SCREEN_HEIGHT
 from Classes.Game import Game
-from Interface.View.PauseScene import PauseView
+from Interface.Views.PauseScene import PauseView
 from Utils.character_manager import launch_spell
 from Utils.displayer import display_winner
 from Utils.scene_manager import create_button
