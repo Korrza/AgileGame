@@ -3,6 +3,7 @@ import random
 import arcade
 import arcade.gui
 
+from Classes.PlayerType import PlayerType
 from Interface.SceneProperties import SCREEN_WIDTH, SCREEN_HEIGHT
 from Classes.Game import Game
 from Interface.Views.PauseScene import PauseView
@@ -13,7 +14,7 @@ from pyglet.clock import schedule_once
 
 
 class GameView(arcade.View):
-    def __init__(self, multiplayer):
+    def __init__(self, multiplayer: bool, players_type: list[PlayerType]):
         super().__init__()
         self.robot_delay = 2
         self.manager = arcade.gui.UIManager()
@@ -32,6 +33,7 @@ class GameView(arcade.View):
         self.shapes.append(arcade.create_rectangle_filled_with_colors(points, colors))
 
         self.multiplayer = multiplayer
+        self.players_type = players_type
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.ESCAPE:
@@ -111,7 +113,7 @@ class GameView(arcade.View):
                 create_button(h_box, f"Spell {i + 1}", enabled=False)
 
     def setup(self):
-        game = Game(self.multiplayer)
+        game = Game(self.multiplayer, self.players_type)
         self.players = game.get_players()
         self.background = arcade.load_texture("Resources/Backgrounds/background.png")
 

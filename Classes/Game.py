@@ -1,3 +1,4 @@
+from Classes.PlayerType import PlayerType
 from Utils.character_manager import create_robot, assign_player_type, create_player
 from colorama import init
 
@@ -6,27 +7,22 @@ init(autoreset=True)
 
 class Game:
 
-    def __init__(self, multiplayer):
+    def __init__(self, multiplayer: bool, players_type: list[PlayerType]):
         self.players = []
         self.turn = 0
         self.multiplayer = multiplayer
+        self.players_type = players_type
 
     def get_players(self) -> []:
         if self.multiplayer:
-            first_player_type_choice = 'w'
-            second_player_type_choice = 'd'
-
-            first_player_type = assign_player_type(first_player_type_choice)
-            second_player_type = assign_player_type(second_player_type_choice)
+            first_player_type = self.players_type[0]
+            second_player_type = self.players_type[1]
 
             self.players.append(create_player(first_player_type))
             self.players.append(create_player(second_player_type, second_player=True))
 
         else:
-            player_type_choice = 'm'
-            player_type = assign_player_type(player_type_choice)
-
-            self.players.append(create_player(player_type))
+            self.players.append(create_player(self.players_type[0]))
             self.players.append(create_robot())
 
         return self.players

@@ -1,6 +1,7 @@
 import arcade
 import arcade.gui
 
+from Classes.PlayerType import PlayerType
 from Interface.SceneProperties import SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE
 from Interface.Views.GameScene import GameView
 
@@ -83,6 +84,7 @@ class SoloChooserView(arcade.View):
         self.stats_sprites = []
 
         self.character_selection_setup()
+        self.player_type = PlayerType.MAGE
 
     def character_selection_setup(self):
         self.character_manager.enable()
@@ -158,12 +160,15 @@ class SoloChooserView(arcade.View):
                              multiline=True, width=325)
 
     def switch_to_fairy(self, event):
+        self.player_type = PlayerType.DRAGON
         self.character_sprite.texture = arcade.load_texture("Resources/Characters/Fairy.png")
 
     def switch_to_warrior(self, event):
+        self.player_type = PlayerType.WARRIOR
         self.character_sprite.texture = arcade.load_texture("Resources/Characters/Warrior.png")
 
     def switch_to_sound(self, event):
+        self.player_type = PlayerType.DRAGON
         self.character_sprite.texture = arcade.load_texture("Resources/Characters/Sound.png")
 
     def draw_solo_character_selection(self):
@@ -193,7 +198,7 @@ class SoloChooserView(arcade.View):
         self.window.show_view(MenuView())
 
     def launch_game(self, event):
-        self.window.show_view(GameView(False))
+        self.window.show_view(GameView(False, [self.player_type]))
 
     def on_show_view(self):
         arcade.set_background_color([135, 124, 248])
@@ -220,6 +225,9 @@ class MultiChooserView(arcade.View):
         self.p2_character_sprite = None
 
         self.character_selection_setup()
+
+        self.player_one_type = PlayerType.MAGE
+        self.player_two_type = PlayerType.WARRIOR
 
     def character_selection_setup(self):
         self.character_manager.enable()
@@ -274,21 +282,27 @@ class MultiChooserView(arcade.View):
                                                              anchor_y="bottom", child=box))
 
     def p1_switch_to_fairy(self, event):
+        self.player_one_type = PlayerType.DRAGON
         self.p1_character_sprite.texture = arcade.load_texture("Resources/Characters/Fairy.png")
 
     def p1_switch_to_warrior(self, event):
+        self.player_one_type = PlayerType.WARRIOR
         self.p1_character_sprite.texture = arcade.load_texture("Resources/Characters/Warrior.png")
 
     def p1_switch_to_sound(self, event):
+        self.player_one_type = PlayerType.MAGE
         self.p1_character_sprite.texture = arcade.load_texture("Resources/Characters/Sound.png")
 
     def p2_switch_to_fairy(self, event):
+        self.player_two_type = PlayerType.DRAGON
         self.p2_character_sprite.texture = arcade.load_texture("Resources/Characters/Fairy.png")
 
     def p2_switch_to_warrior(self, event):
+        self.player_two_type = PlayerType.WARRIOR
         self.p2_character_sprite.texture = arcade.load_texture("Resources/Characters/Warrior.png")
 
     def p2_switch_to_sound(self, event):
+        self.player_two_type = PlayerType.MAGE
         self.p2_character_sprite.texture = arcade.load_texture("Resources/Characters/Sound.png")
 
     def draw_solo_character_selection(self):
@@ -306,7 +320,7 @@ class MultiChooserView(arcade.View):
         pass
 
     def launch_game(self, event):
-        self.window.show_view(GameView(True))
+        self.window.show_view(GameView(True, [self.player_one_type, self.player_two_type]))
 
     def on_show_view(self):
         arcade.set_background_color([135, 124, 248])
