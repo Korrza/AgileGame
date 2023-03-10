@@ -67,6 +67,7 @@ class GameView(arcade.View):
         spell = random.choice(self.players[1].spells)
         spell_info = launch_spell(spell, self.players[0], self.players[1])
         self.apply_spell(spell_info, 1, 1, 0)
+        self.manager.enable()
 
     def robot_play_with_delay(self, delay):
         schedule_once(self.robot_play, delay)
@@ -76,6 +77,7 @@ class GameView(arcade.View):
         self.apply_spell(spell_info, 0, 0, 1)
 
         if self.players[1].statistics.current_hp > 0:
+            self.manager.disable()
             self.robot_play_with_delay(self.robot_delay)
             if self.players[0].statistics.current_hp <= 0:
                 self.winner = self.players[1]
@@ -145,7 +147,6 @@ class GameView(arcade.View):
         self.manager.draw()
 
     def on_update(self, delta_time):
-
         if self.winner is None:
 
             if self.players_spell_played != 0:
