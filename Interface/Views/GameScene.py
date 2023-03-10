@@ -90,6 +90,8 @@ class GameView(arcade.View):
                 else:
                     self.caster_index = 0
                     self.target_index = 1
+
+                self.on_show_view()
             else:
                 self.manager.disable()
                 self.robot_play_with_delay(self.robot_delay)
@@ -123,9 +125,10 @@ class GameView(arcade.View):
                 create_button(h_box, f"{self.players[self.caster_index].spells[i].name}", enabled=False)
 
     def setup(self):
-        game = Game(self.multiplayer, self.players_type)
-        self.players = game.get_players()
-        self.background = arcade.load_texture("Resources/Backgrounds/background.png")
+        if len(self.players) == 0:
+            game = Game(self.multiplayer, self.players_type)
+            self.players = game.get_players()
+            self.background = arcade.load_texture("Resources/Backgrounds/background.png")
 
     def on_draw(self):
         self.clear()
