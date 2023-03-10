@@ -67,12 +67,6 @@ class GameView(arcade.View):
 
         self.manager.add(arcade.gui.UIAnchorWidget(anchor_x='center_x', anchor_y='bottom', child=h_box))
 
-        self.manager.add(
-            arcade.gui.UIAnchorWidget(
-                anchor_x="center_x",
-                anchor_y="bottom",
-                child=h_box)
-        )
 
     @staticmethod
     def create_button(h_box, text):
