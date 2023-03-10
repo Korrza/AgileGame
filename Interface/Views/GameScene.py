@@ -24,6 +24,8 @@ class GameView(arcade.View):
         self.turn = 1
         self.background = None
         self.winner = None
+        self.left_player = None
+        self.right_player = None
 
         self.shapes = arcade.ShapeElementList()
         color1 = (98, 47, 89)
@@ -126,6 +128,8 @@ class GameView(arcade.View):
         game = Game(self.multiplayer, self.players_type)
         self.players = game.get_players()
         self.background = arcade.load_texture("Resources/Backgrounds/background.png")
+        self.left_player = arcade.load_texture("Resources/Characters/left_slime.png")
+        self.right_player = arcade.load_texture("Resources/Characters/right_slime.png")
 
     def on_draw(self):
         self.clear()
@@ -140,6 +144,11 @@ class GameView(arcade.View):
                          anchor_x="left")
         arcade.draw_text(self.players[1].name,SCREEN_WIDTH - 25, SCREEN_HEIGHT - 40, arcade.color.WHITE, font_size=20,
                          anchor_x="right")
+
+        # Slimes
+        arcade.draw_lrwh_rectangle_textured(200, 200, 100, 100, self.left_player)
+        arcade.draw_lrwh_rectangle_textured(SCREEN_WIDTH - 300, 200, 100, 100, self.right_player)
+
         # Life bar
         arcade.draw_rectangle_filled(150, SCREEN_HEIGHT - 70, 250, 30, [84, 27, 25, 150])
         arcade.draw_rectangle_filled(SCREEN_WIDTH - 150, SCREEN_HEIGHT - 70, 250, 30, [84, 27, 25, 150])
