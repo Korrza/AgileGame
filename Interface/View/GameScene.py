@@ -103,7 +103,7 @@ class GameView(arcade.View):
         number_of_spells = len(self.players[0].spells)
         for i in range(number_of_spells):
             if self.winner is None:
-                spell_button = create_button(h_box, f"Spell {i + 1}")
+                spell_button = create_button(h_box, f"{self.players[0].spells[i].name}")
                 spell_button.on_click = lambda event, spell_index=i: self.on_click_spell(spell_index)
             else:
                 create_button(h_box, f"Spell {i + 1}", enabled=False)
