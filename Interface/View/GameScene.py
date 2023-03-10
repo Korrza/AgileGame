@@ -9,11 +9,13 @@ from Interface.View.PauseScene import PauseView
 from Utils.character_manager import launch_spell
 from Utils.displayer import display_winner
 from Utils.scene_manager import create_button
+from pyglet.clock import schedule_once
 
 
 class GameView(arcade.View):
     def __init__(self):
         super().__init__()
+        self.robot_delay = 2
         self.manager = arcade.gui.UIManager()
         self.players = []
         self.players_spell_played = 0
@@ -61,17 +63,20 @@ class GameView(arcade.View):
         self.text = spell_info['text']
         self.players_spell_played = spell_index + 1
 
-    def robot_play(self):
+    def robot_play(self, delta_time):
         spell = random.choice(self.players[1].spells)
         spell_info = launch_spell(spell, self.players[0], self.players[1])
         self.apply_spell(spell_info, 1, 1, 0)
+
+    def robot_play_with_delay(self, delay):
+        schedule_once(self.robot_play, delay)
 
     def on_click_spell(self, spell_index):
         spell_info = launch_spell(self.players[0].spells[spell_index], self.players[1], self.players[0])
         self.apply_spell(spell_info, 0, 0, 1)
 
         if self.players[1].statistics.current_hp > 0:
-            self.robot_play()
+            self.robot_play_with_delay(self.robot_delay)
             if self.players[0].statistics.current_hp <= 0:
                 self.winner = self.players[1]
         else:
