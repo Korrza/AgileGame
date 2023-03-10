@@ -1,7 +1,10 @@
+import json
+
 import arcade
 import arcade.gui
 
 from Classes.PlayerType import PlayerType
+from Classes.Spell import Spell
 from Interface.SceneProperties import SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE
 from Interface.Views.GameScene import GameView
 
@@ -15,22 +18,30 @@ class MenuView(arcade.View):
         self.v_box = arcade.gui.UIBoxLayout()
 
         self.menu_background = None
+        self.menu_title = None
         self.menu_gradient = None
 
         self.menu_setup()
 
     def menu_setup(self):
         self.menu_background = arcade.load_texture("Resources/Backgrounds/menu_background.png")
+        self.menu_title = arcade.load_texture("Resources/Backgrounds/background_title.png")
 
-        start_button = arcade.gui.UIFlatButton(text="1 Player", width=200)
+        start_button = arcade.gui.UITextureButton(
+            texture=arcade.load_texture("Resources/Buttons/1_player_button.png"), scale=0.75,
+            texture_hovered=arcade.load_texture("Resources/Buttons/1_player_button_hover.png"))
         self.v_box.add(start_button.with_space_around(bottom=20))
         start_button.on_click = self.show_view
 
-        start_button = arcade.gui.UIFlatButton(text="2 Players", width=200)
+        start_button = arcade.gui.UITextureButton(
+            texture=arcade.load_texture("Resources/Buttons/2_players_button.png"), scale=0.75,
+            texture_hovered=arcade.load_texture("Resources/Buttons/2_players_button_hover.png"))
         self.v_box.add(start_button.with_space_around(bottom=20))
         start_button.on_click = self.show_multi_view
 
-        quit_button = arcade.gui.UIFlatButton(text="Quit Game", width=200)
+        quit_button = arcade.gui.UITextureButton(
+            texture=arcade.load_texture("Resources/Buttons/quit_button.png"), scale=0.75,
+            texture_hovered=arcade.load_texture("Resources/Buttons/quit_button_hover.png"))
         self.v_box.add(quit_button)
         quit_button.on_click = self.quit_game
 
@@ -45,8 +56,7 @@ class MenuView(arcade.View):
         self.menu_gradient.draw()
         self.manager.draw()
         arcade.draw_lrwh_rectangle_textured(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, self.menu_background)
-        arcade.draw_text(SCREEN_TITLE, SCREEN_WIDTH / 2, SCREEN_HEIGHT - 200,
-                         arcade.color.WHITE, font_size=50, anchor_x="center")
+        arcade.draw_lrwh_rectangle_textured(SCREEN_WIDTH / 2 - 282, SCREEN_HEIGHT - 200, 565, 145, self.menu_title)
 
     def show_view(self, event):
         self.window.show_view(SoloChooserView())
@@ -81,6 +91,9 @@ class SoloChooserView(arcade.View):
         self.char_select_background = None
         self.char_select_gradient = None
         self.character_sprite = None
+        self.vsIa_title = None
+        self.color = arcade.color.BRICK_RED
+        self.spell_to_show = self.get_classes_spells("../spells_warrior.json")
         self.stats_sprites = []
 
         self.character_selection_setup()
@@ -92,6 +105,7 @@ class SoloChooserView(arcade.View):
         self.stats_box_manager.enable()
 
         self.char_select_background = arcade.load_texture("Resources/Backgrounds/char_select_background.png")
+        self.vsIa_title = arcade.load_texture("Resources/Backgrounds/1vsIa_title.png")
 
         back_button = arcade.gui.UIFlatButton(text="Back", width=100)
         start_button = arcade.gui.UIFlatButton(text="Start !", width=300)
@@ -100,7 +114,7 @@ class SoloChooserView(arcade.View):
         start_button.on_click = self.launch_game
         back_button.on_click = self.back_to_menu
 
-        self.character_sprite = arcade.Sprite("Resources/Characters/Sound.png", scale=0.4,
+        self.character_sprite = arcade.Sprite("Resources/Characters/Warrior.png", scale=0.4,
                                               center_x=SCREEN_WIDTH / 2, center_y=SCREEN_HEIGHT / 2)
 
         sprite_button = arcade.gui.UITextureButton(
@@ -144,32 +158,45 @@ class SoloChooserView(arcade.View):
         self.stats_box_manager.add(arcade.gui.UIAnchorWidget(anchor_x="left", anchor_y="center_y", align_x=300,
                                                              child=self.stats_box))
 
+    @staticmethod
+    def get_classes_spells(file_path):
+        with open(file_path, "r") as f:
+            spell_data = json.load(f)
+        return [Spell(**spell) for spell in spell_data]
+
     def draw_player_spells(self):
         for i in range(4):
+            s = self.spell_to_show[i]
             arcade.draw_rectangle_filled(SCREEN_WIDTH - 300, SCREEN_HEIGHT - 220 - i * 110, 350, 100,
                                          color=(10, 10, 10, 150))
-            arcade.draw_text(f"Fire Ball {i + 1}", SCREEN_WIDTH - 460, SCREEN_HEIGHT - 180 - i * 110,
-                             color=arcade.color.WHITE, anchor_x="left", anchor_y="top", font_size=20)
-            arcade.draw_text(f"Power : {i * 15 + 5}", SCREEN_WIDTH - 460, SCREEN_HEIGHT - 210 - i * 110,
+            arcade.draw_text(s.name, SCREEN_WIDTH - 460, SCREEN_HEIGHT - 180 - i * 110,
+                             color=self.color, anchor_x="left", anchor_y="top", font_size=20)
+            arcade.draw_text(f"Power : {s.power}", SCREEN_WIDTH - 460, SCREEN_HEIGHT - 210 - i * 110,
                              color=arcade.color.WHITE, anchor_x="left", anchor_y="top", font_size=12)
-            arcade.draw_text(f"cooldown : {i + 1}", SCREEN_WIDTH - 140, SCREEN_HEIGHT - 210 - i * 110,
+            arcade.draw_text(f"cooldown : {s.cooldown if s.cooldown else '0'} Turn",
+                             SCREEN_WIDTH - 140, SCREEN_HEIGHT - 210 - i * 110,
                              color=arcade.color.WHITE, anchor_x="right", anchor_y="top", font_size=12)
-            arcade.draw_text(f"Launch a Fire Ball that deal fire damages, caster and target have a chance to be burn",
-                             SCREEN_WIDTH - 460, SCREEN_HEIGHT - 260 - i * 110,
-                             color=arcade.color.WHITE, anchor_x="left", anchor_y="bottom", font_size=10,
+            arcade.draw_text(s.description, SCREEN_WIDTH - 460, SCREEN_HEIGHT - 260 - i * 110,
+                             color=arcade.color.LIGHT_APRICOT, anchor_x="left", anchor_y="bottom", font_size=10,
                              multiline=True, width=325)
 
     def switch_to_fairy(self, event):
         self.player_type = PlayerType.DRAGON
         self.character_sprite.texture = arcade.load_texture("Resources/Characters/Fairy.png")
+        self.spell_to_show = self.get_classes_spells("../spells_dragon.json")
+        self.color = arcade.color.PIGGY_PINK
 
     def switch_to_warrior(self, event):
         self.player_type = PlayerType.WARRIOR
         self.character_sprite.texture = arcade.load_texture("Resources/Characters/Warrior.png")
+        self.spell_to_show = self.get_classes_spells("../spells_warrior.json")
+        self.color = arcade.color.BRICK_RED
 
     def switch_to_sound(self, event):
         self.player_type = PlayerType.DRAGON
         self.character_sprite.texture = arcade.load_texture("Resources/Characters/Sound.png")
+        self.spell_to_show = self.get_classes_spells("../spells_mage.json")
+        self.color = arcade.color.BLUEBERRY
 
     def draw_solo_character_selection(self):
         self.char_select_gradient.draw()
@@ -177,21 +204,20 @@ class SoloChooserView(arcade.View):
         self.character_manager.draw()
         self.cm_b_manager.draw()
 
-        arcade.draw_text("1 VS IA", SCREEN_WIDTH / 2, SCREEN_HEIGHT - 75,
-                         arcade.color.WHITE, font_size=50, anchor_x="center")
+        arcade.draw_lrwh_rectangle_textured(SCREEN_WIDTH / 2 - 200, SCREEN_HEIGHT - 80, 400, 65, self.vsIa_title)
         self.character_sprite.draw()
         self.stats_box_manager.draw()
         self.show_stats_values()
 
     @staticmethod
     def show_stats_values():
-        arcade.draw_text("100", 270, SCREEN_HEIGHT / 2 + 80, arcade.color.WHITE,
+        arcade.draw_text("100", 270, SCREEN_HEIGHT / 2 + 80, arcade.color.ANDROID_GREEN,
                          font_size=20, anchor_x="center")
-        arcade.draw_text("15", 270, SCREEN_HEIGHT / 2 + 15, arcade.color.WHITE,
+        arcade.draw_text("20", 270, SCREEN_HEIGHT / 2 + 15, arcade.color.RED_ORANGE,
                          font_size=20, anchor_x="center")
-        arcade.draw_text("50", 270, SCREEN_HEIGHT / 2 - 45, arcade.color.WHITE,
+        arcade.draw_text("30", 270, SCREEN_HEIGHT / 2 - 45, arcade.color.PURPLE_HEART,
                          font_size=20, anchor_x="center")
-        arcade.draw_text("10", 270, SCREEN_HEIGHT / 2 - 105, arcade.color.WHITE,
+        arcade.draw_text("10", 270, SCREEN_HEIGHT / 2 - 105, arcade.color.BONE,
                          font_size=20, anchor_x="center")
 
     def back_to_menu(self, event):
@@ -223,6 +249,7 @@ class MultiChooserView(arcade.View):
         self.char_select_gradient = None
         self.p1_character_sprite = None
         self.p2_character_sprite = None
+        self.vs1_title = None
 
         self.character_selection_setup()
 
@@ -234,6 +261,7 @@ class MultiChooserView(arcade.View):
         self.cm_b_manager.enable()
 
         self.char_select_background = arcade.load_texture("Resources/Backgrounds/char_select_background.png")
+        self.vs1_title = arcade.load_texture("Resources/Backgrounds/1vs1_title.png")
 
         back_button = arcade.gui.UIFlatButton(text="Back", width=100)
         start_button = arcade.gui.UIFlatButton(text="Start !", width=300)
@@ -310,8 +338,7 @@ class MultiChooserView(arcade.View):
         arcade.draw_lrwh_rectangle_textured(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, self.char_select_background)
         self.character_manager.draw()
         self.cm_b_manager.draw()
-        arcade.draw_text("1 VS 1", SCREEN_WIDTH / 2, SCREEN_HEIGHT - 75,
-                         arcade.color.WHITE, font_size=50, anchor_x="center")
+        arcade.draw_lrwh_rectangle_textured(SCREEN_WIDTH / 2 - 200, SCREEN_HEIGHT - 80, 400, 65, self.vs1_title)
         self.p1_character_sprite.draw()
         self.p2_character_sprite.draw()
 
