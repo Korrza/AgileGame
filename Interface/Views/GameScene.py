@@ -13,7 +13,7 @@ from pyglet.clock import schedule_once
 
 
 class GameView(arcade.View):
-    def __init__(self):
+    def __init__(self, multiplayer):
         super().__init__()
         self.robot_delay = 2
         self.manager = arcade.gui.UIManager()
@@ -30,6 +30,8 @@ class GameView(arcade.View):
         points = (0, 0), (SCREEN_WIDTH, 0), (SCREEN_WIDTH, SCREEN_HEIGHT), (0, SCREEN_HEIGHT)
         colors = (color1, color1, color2, color2)
         self.shapes.append(arcade.create_rectangle_filled_with_colors(points, colors))
+
+        self.multiplayer = multiplayer
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.ESCAPE:
@@ -109,7 +111,7 @@ class GameView(arcade.View):
                 create_button(h_box, f"Spell {i + 1}", enabled=False)
 
     def setup(self):
-        game = Game()
+        game = Game(self.multiplayer)
         self.players = game.get_players()
         self.background = arcade.load_texture("Resources/Backgrounds/background.png")
 

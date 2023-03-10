@@ -99,7 +99,7 @@ class SoloChooserView(arcade.View):
         back_button.on_click = self.back_to_menu
 
         self.character_sprite = arcade.Sprite("Resources/Characters/Sound.png", scale=0.4,
-                                              center_x=SCREEN_WIDTH/2, center_y=SCREEN_HEIGHT/2)
+                                              center_x=SCREEN_WIDTH / 2, center_y=SCREEN_HEIGHT / 2)
 
         sprite_button = arcade.gui.UITextureButton(
             texture=arcade.load_texture("Resources/Buttons/Fairy_button.png"), scale=0.75,
@@ -123,7 +123,7 @@ class SoloChooserView(arcade.View):
         self.character_manager.add(arcade.gui.UIAnchorWidget(anchor_x="center_x",
                                                              anchor_y="bottom", child=self.cm_box))
 
-        self.char_select_gradient = arcade.create_ellipse_filled_with_colors(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,
+        self.char_select_gradient = arcade.create_ellipse_filled_with_colors(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2,
                                                                              SCREEN_WIDTH, SCREEN_HEIGHT,
                                                                              inside_color=(16, 29, 68),
                                                                              outside_color=(12, 43, 70))
@@ -156,7 +156,6 @@ class SoloChooserView(arcade.View):
                              SCREEN_WIDTH - 460, SCREEN_HEIGHT - 260 - i * 110,
                              color=arcade.color.WHITE, anchor_x="left", anchor_y="bottom", font_size=10,
                              multiline=True, width=325)
-
 
     def switch_to_fairy(self, event):
         self.character_sprite.texture = arcade.load_texture("Resources/Characters/Fairy.png")
@@ -194,7 +193,7 @@ class SoloChooserView(arcade.View):
         self.window.show_view(MenuView())
 
     def launch_game(self, event):
-        self.window.show_view(GameView())
+        self.window.show_view(GameView(False))
 
     def on_show_view(self):
         arcade.set_background_color([135, 124, 248])
@@ -236,7 +235,7 @@ class MultiChooserView(arcade.View):
         back_button.on_click = self.back_to_menu
 
         self.p1_character_sprite = arcade.Sprite("Resources/Characters/Sound.png", scale=0.4,
-                                              center_x=SCREEN_WIDTH/2 - 300, center_y=SCREEN_HEIGHT/2)
+                                                 center_x=SCREEN_WIDTH / 2 - 300, center_y=SCREEN_HEIGHT / 2)
 
         self.p2_character_sprite = arcade.Sprite("Resources/Characters/Warrior.png", scale=0.4,
                                                  center_x=SCREEN_WIDTH / 2 + 300, center_y=SCREEN_HEIGHT / 2)
@@ -244,7 +243,7 @@ class MultiChooserView(arcade.View):
         self.character_select(False)
         self.character_select(True)
 
-        self.char_select_gradient = arcade.create_ellipse_filled_with_colors(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,
+        self.char_select_gradient = arcade.create_ellipse_filled_with_colors(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2,
                                                                              SCREEN_WIDTH, SCREEN_HEIGHT,
                                                                              inside_color=(16, 29, 68),
                                                                              outside_color=(12, 43, 70))
@@ -307,7 +306,7 @@ class MultiChooserView(arcade.View):
         pass
 
     def launch_game(self, event):
-        self.window.show_view(GameView())
+        self.window.show_view(GameView(True))
 
     def on_show_view(self):
         arcade.set_background_color([135, 124, 248])
@@ -315,4 +314,3 @@ class MultiChooserView(arcade.View):
     def on_draw(self):
         self.clear()
         self.draw_solo_character_selection()
-

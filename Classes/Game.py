@@ -6,21 +6,13 @@ init(autoreset=True)
 
 class Game:
 
-    def __init__(self):
+    def __init__(self, multiplayer):
         self.players = []
         self.turn = 0
+        self.multiplayer = multiplayer
 
     def get_players(self) -> []:
-        players_number = '1'
-
-        if players_number == '1':
-            player_type_choice = 'm'
-            player_type = assign_player_type(player_type_choice)
-
-            self.players.append(create_player(player_type))
-            self.players.append(create_robot())
-
-        elif players_number == '2':
+        if self.multiplayer:
             first_player_type_choice = 'w'
             second_player_type_choice = 'd'
 
@@ -29,6 +21,13 @@ class Game:
 
             self.players.append(create_player(first_player_type))
             self.players.append(create_player(second_player_type, second_player=True))
+
+        else:
+            player_type_choice = 'm'
+            player_type = assign_player_type(player_type_choice)
+
+            self.players.append(create_player(player_type))
+            self.players.append(create_robot())
 
         return self.players
 
