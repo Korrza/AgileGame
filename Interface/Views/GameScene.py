@@ -21,7 +21,7 @@ class GameView(arcade.View):
         self.players = []
         self.players_spell_played = 0
         self.text = "Choose a spell."
-        self.turn = 0
+        self.turn = 1
         self.background = None
         self.winner = None
 
@@ -58,7 +58,7 @@ class GameView(arcade.View):
         if self.players[0].statistics.current_hp <= 0:
             self.winner = self.players[1]
 
-    def apply_spell(self, spell_info, spell_index, caster_index: int, target_index: int):
+    def apply_spell(self, spell_info, caster_index: int, target_index: int):
         print(spell_info)
 
         if spell_info['damage'] is not None:
@@ -67,12 +67,12 @@ class GameView(arcade.View):
             self.players[caster_index].statistics.current_hp = min(self.players[caster_index].statistics.current_hp + spell_info['heal'], self.players[caster_index].statistics.max_hp)
 
         self.text = spell_info['text']
-        self.players_spell_played = spell_index + 1
+        self.players_spell_played += 1
 
     def robot_play(self, delta_time):
         spell = random.choice(self.players[1].spells)
         spell_info = launch_spell(spell, self.players[self.caster_index], self.players[1])
-        self.apply_spell(spell_info, 1, 1, 0)
+        self.apply_spell(spell_info, 1, 0)
         self.manager.enable()
 
     def robot_play_with_delay(self, delay):
@@ -80,7 +80,7 @@ class GameView(arcade.View):
 
     def on_click_spell(self, spell_index):
         spell_info = launch_spell(self.players[self.caster_index].spells[spell_index], self.players[self.target_index], self.players[self.caster_index])
-        self.apply_spell(spell_info, spell_index, self.caster_index, self.target_index)
+        self.apply_spell(spell_info, self.caster_index, self.target_index)
 
         if self.players[self.target_index].statistics.current_hp > 0:
             if self.multiplayer:
@@ -162,8 +162,7 @@ class GameView(arcade.View):
 
     def on_update(self, delta_time):
         if self.winner is None:
-
-            if self.players_spell_played != 0:
+            if self.players_spell_played == 2:
                 self.players_spell_played = 0
                 self.turn += 1
 
