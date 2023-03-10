@@ -31,7 +31,7 @@ def assign_all_robot_spells() -> list[Spell]:
 
 def create_player(player_type: PlayerType, second_player: bool = False) -> Player:
     spells = assign_all_player_spells(player_type)
-    return Player(_id=1, statistics=Statistics(100, 100, 10, 10, 0, 0), spells=spells, status=0,
+    return Player(_id=1, statistics=Statistics(100, 100, 30, 20, 0, 0), spells=spells, status=0,
                   player_type=player_type,
                   second_player=second_player)
 
@@ -39,7 +39,7 @@ def create_player(player_type: PlayerType, second_player: bool = False) -> Playe
 def create_robot() -> Robot:
     spells = assign_all_robot_spells()
 
-    return Robot(_id=1, statistics=Statistics(100, 100, 10, 10, 0, 0), spells=spells, status=0)
+    return Robot(_id=1, statistics=Statistics(100, 100, 35, 15, 0, 0), spells=spells, status=0)
 
 
 def compute_damage(attack: int, power: int) -> int:
